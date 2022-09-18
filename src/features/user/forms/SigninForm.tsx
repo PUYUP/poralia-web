@@ -31,28 +31,27 @@ const SignInForm = (props: {
 	const [isError, setIsError] = useState<boolean>(false)
 	const [role, setRole] = useState<string>('candidate')
 	const [isLoading, setIsLoading] = useState<boolean>(false)
-	const { status } = useSession({ required: false })
+	const { data: session, status } = useSession({ required: false })
 
 	useEffect(() => {
 		setIsError(result.isError)
 	}, [result])
 
 	const retrieveSession = async () => {
-		setIsLoading(true)
-
-		const session = await getSession()
-		
 		// Create user if no exists
 		try {
-			const email = session?.user?.email
+			// @ts-ignore
+			const auth = session?.user?.auth
+			const email = auth?.email
 			const nameMatch = email?.match(/^([^@]*)@/);
 			const username = nameMatch?.[1];
 			// @ts-ignore
-			const password = (username + email).repeat(3);
+			const password = auth.id;
 			const res = await axios.post(USER_BASE_URL, {
 				roles: [role],
 				email: email,
-				name: session?.user?.name,
+				// @ts-ignore
+				name: auth?.name,
 				username: username,
 				password: password,
 			})
@@ -60,14 +59,12 @@ const SignInForm = (props: {
 			// no action
 			// console.log(error)
 		}
-
-		setIsLoading(false)
 	}
 
 	const onSignin = async (provider: string, role: string) => {
 		setIsLoading(true)
 		setRole(role)
-		
+
 		await signIn(provider, {redirect: false})
 	}
 

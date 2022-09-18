@@ -40,7 +40,7 @@ const BasicMenu = (props: {
 				onClick={handleClick}
 				sx={{ width: '80px', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.2' }}
 			>
-				{props.session?.user?.name}
+				{"My account"}
 			</Button>
 
 			<Menu
@@ -57,10 +57,10 @@ const BasicMenu = (props: {
 						<ListItemIcon>
 							<PersonIcon fontSize="small" />
 						</ListItemIcon>
-						<ListItemText>{"My account"}</ListItemText>
+						<ListItemText>{"Profile"}</ListItemText>
 					</MenuItem>
 				</Link>
-				<MenuItem onClick={() => signOut({ callbackUrl: 'http://localhost:3000' })}>
+				<MenuItem onClick={() => signOut({ callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL })}>
 					<ListItemIcon>
 						<ExitToAppIcon fontSize="small" />
 					</ListItemIcon>

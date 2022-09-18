@@ -20,41 +20,27 @@ export const authOptions = (req) => ({
 		maxAge: 30 * 24 * 60 * 60,
 	},
 	callbacks: {
-		async session({ session, token }) {
-			const nameMatch = session.user.email.match(/^([^@]*)@/);
-			const username = nameMatch[1];
-			const email = session.user.email;
-			const password = (username + session.user.email).repeat(3);
+		async session({ session, user }) {
+			const email = user.email;
+			const password = user.id;
+
+			// insert google user
+			session.user.auth = user
 
 			// acquired JWT token
-			let jwtToken = null
+			if (session.user?.token === undefined) {
+				try {
+					const jwt = await axios.post(JWT_BASE_URL, {
+						username: email,
+						password: password,
+					})
 
-			try {
-				const jwt = await axios.post(JWT_BASE_URL, {
-					username: email,
-					password: password,
-				})
-
-				jwtToken = jwt.data.token
-				session.user.token = jwtToken
-			} catch (error) {
-				// pass
-				// console.log(error)
-			}
-
-			// retrieve user from database
-			try {
-				const user = await axios.get(`${USER_BASE_URL}me`, {
-					headers: {
-						'Authorization': `Bearer ${jwtToken}` 
-					}
-				})
-
-				session.user.name = user.data.name
-				session.user.id = user.data.id
-			} catch (error) {
-				// pass
-				// console.log(error)
+					session.user.token = jwt.data.token
+					session.user.id = jwt.data.user_id
+				} catch (error) {
+					// pass
+					// console.log(error)
+				}
 			}
 
 			return session
