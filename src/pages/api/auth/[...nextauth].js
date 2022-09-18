@@ -36,7 +36,7 @@ export const authOptions = (req) => ({
 				})
 			} catch (error) {
 				// no action
-				// console.log(error)
+				console.log(error)
 			}
 
 			return true
@@ -60,7 +60,7 @@ export const authOptions = (req) => ({
 				session.user.token = jwtToken
 			} catch (error) {
 				// pass
-				// console.log(error)
+				console.log(error)
 			}
 
 			// retrieve user from database
@@ -75,6 +75,7 @@ export const authOptions = (req) => ({
 				session.user.id = user.data.id
 			} catch (error) {
 				// pass
+				console.log(error)
 			}
 
 			return session
