@@ -29,7 +29,6 @@ const SignInForm = (props: {
 	const { data: sessionData } = useSession()
 	const [acquireToken, result] = useAcquireTokenMutation()
 	const [isError, setIsError] = useState<boolean>(false)
-	const [role, setRole] = useState<string>('candidate')
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const { data: session, status } = useSession({ required: false })
 
@@ -48,7 +47,7 @@ const SignInForm = (props: {
 			// @ts-ignore
 			const password = auth.id;
 			const res = await axios.post(USER_BASE_URL, {
-				roles: [role],
+				roles: [props.role],
 				email: email,
 				// @ts-ignore
 				name: auth?.name,
@@ -61,10 +60,8 @@ const SignInForm = (props: {
 		}
 	}
 
-	const onSignin = async (provider: string, role: string) => {
+	const onSignin = async (provider: string) => {
 		setIsLoading(true)
-		setRole(role)
-
 		await signIn(provider, {redirect: false})
 	}
 
@@ -87,7 +84,7 @@ const SignInForm = (props: {
 						variant='contained' 
 						color='error' 
 						size='large'
-						onClick={() => onSignin('google', props.role)}
+						onClick={() => onSignin('google')}
 						sx={{ borderRadius: 6, width: '100%' }}
 						startIcon={<GoogleIcon />}
 					>
@@ -99,7 +96,7 @@ const SignInForm = (props: {
 						variant='contained' 
 						color='error' 
 						size='large'
-						onClick={() => onSignin('linkedin', props.role)}
+						onClick={() => onSignin('linkedin')}
 						sx={{ 
 							borderRadius: 6, 
 							width: '100%', 
