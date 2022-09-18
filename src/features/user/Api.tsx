@@ -14,7 +14,7 @@ export const userApi = createApi({
 	reducerPath: 'userApi',
 	tagTypes: ['User'],
 	baseQuery: fetchBaseQuery({ 
-		baseUrl: process.env.BASE_API_URL,
+		baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
 		prepareHeaders: async (headers, { getState }) => {
 			const session = await getSession()
 

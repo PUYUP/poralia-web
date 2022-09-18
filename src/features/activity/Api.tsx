@@ -1,13 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getSession, useSession } from 'next-auth/react'
-import { RootState } from '../../lib/store'
 
 
 export const activityApi = createApi({
 	reducerPath: 'activityApi',
 	tagTypes: ['Activity'],
 	baseQuery: fetchBaseQuery({ 
-		baseUrl: process.env.BASE_API_URL,
+		baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
 		prepareHeaders: async (headers, { getState }) => {
 			const session = await getSession()
 

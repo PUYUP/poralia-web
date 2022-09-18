@@ -6,12 +6,12 @@ import LinkedInProvider from "next-auth/providers/linkedin";
 import { FirestoreAdapter } from "@next-auth/firebase-adapter"
 import { signIn } from "next-auth/react";
 
-const USER_BASE_URL = `${process.env.BASE_API_URL}/wp/v2/users/`
-const JWT_BASE_URL = `${process.env.BASE_API_URL}/jwt-auth/v1/token`
+const USER_BASE_URL = `${process.env.NEXT_PUBLIC_BASE_API_URL}/wp/v2/users/`
+const JWT_BASE_URL = `${process.env.NEXT_PUBLIC_BASE_API_URL}/jwt-auth/v1/token`
 
 
 export const authOptions = (req) => ({
-	secret: process.env.AUTH_SECRET,
+	secret: process.env.NEXT_PUBLIC_AUTH_SECRET,
 	pages: {
 		signIn: '/signin',
 		error: '/signin'
@@ -81,13 +81,13 @@ export const authOptions = (req) => ({
 		},
 	},
 	adapter: FirestoreAdapter({
-		apiKey: process.env.FIREBASE_API_KEY,
-		appId: process.env.FIREBASE_APP_ID,
-		authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-		databaseURL: process.env.FIREBASE_DATABASE_URL,
-		projectId: process.env.FIREBASE_PROJECT_ID,
-		storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-		messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+		apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+		appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+		authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+		databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+		projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+		storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+		messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 		// Optional emulator config (see below for options)
 		// emulator: {
 		// 	// Optional host, defaults to `localhost`
@@ -100,8 +100,8 @@ export const authOptions = (req) => ({
 		GoogleProvider({
 			id: 'google',
 			name: 'Google',
-			clientId: process.env.GOOGLE_CLIENT_ID,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+			clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+			clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
 			authorization: {
 				params: {
 					prompt: "consent",
@@ -114,8 +114,8 @@ export const authOptions = (req) => ({
 		LinkedInProvider({
 			id: 'linkedin',
 			name: 'LinkedIn',
-			clientId: process.env.LINKEDIN_CLIENT_ID,
-			clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+			clientId: process.env.NEXT_PUBLIC_LINKEDIN_CLIENT_ID,
+			clientSecret: process.env.NEXT_PUBLIC_LINKEDIN_CLIENT_SECRET,
 			client: {
 				token_endpoint_auth_method: "client_secret_post",
 		  	},
@@ -128,7 +128,7 @@ export const authOptions = (req) => ({
 				password: { label: "Password", type: "password" }
 			},
 			async authorize(credentials, req) {
-				const res = await fetch(`${process.env.BASE_API_URL}/jwt-auth/v1/token`, {
+				const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/jwt-auth/v1/token`, {
 					method: 'POST',
 					body: JSON.stringify(credentials),
 					headers: { "Content-Type": "application/json" }
