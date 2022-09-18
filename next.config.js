@@ -3,8 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    NEXT_PUBLIC_BASE_API_URL: "http://localhost/www/wp/poralia/wp-json",
-    NEXT_PUBLIC_NEXTAUTH_URL: "http://localhost:3000",
+    NEXT_PUBLIC_BASE_API_URL: "https://api.poralia.com/wp-json",
+    NEXT_PUBLIC_NEXTAUTH_URL: "https://poralia.com",
     NEXT_PUBLIC_NEXTAUTH_SECRET: "86I2IfLkPxCW3c56KlYuviTeIsDNqjHi",
     NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyDT6hO9tP1pWspJDBOBSNwXJFftvmpNiX8",
     NEXT_PUBLIC_FIREBASE_APP_ID: "1:457979870694:web:69acbdb93093aeb9d0ea27",
