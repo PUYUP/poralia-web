@@ -60,7 +60,7 @@ const RejectionForm = (props: {
 				<Formik
 					enableReinitialize={true}
 					initialValues={{
-						rejectedIn: rejection ? rejection.meta.rejected_in : '',
+						applyingIn: rejection ? rejection.meta.applying_in : '',
 						jobTitle: rejection ? rejection.title.rendered : '',
 						appliedAt: rejection ? rejection.meta.applied_at : '',
 						rejectedAt: rejection ? rejection.meta.rejected_at : '',
@@ -70,7 +70,7 @@ const RejectionForm = (props: {
 						story: rejection ? rejection.content.plain : '',
 					}}
 					validationSchema={Yup.object({
-						rejectedIn: Yup.string()
+						applyingIn: Yup.string()
 							.required('Required field'),
 						jobTitle: Yup.string()
 							.required('Required field'),
@@ -90,7 +90,7 @@ const RejectionForm = (props: {
 							content: values.story,
 							status: 'publish',
 							meta: {
-								rejected_in: values.rejectedIn,
+								applying_in: values.applyingIn,
 								applied_at: values.appliedAt,
 								rejected_at: values.rejectedAt,
 								rejection_count: values.rejectionCount,
@@ -132,14 +132,14 @@ const RejectionForm = (props: {
 
 							<FormControl fullWidth sx={{ marginBottom: 3 }}>
 								<TextField
-									name="rejectedIn"
-									label={"Rejected In"}
+									name="applyingIn"
+									label={"Applying In"}
 									placeholder={"Company name, workplace name, etc"}
 									required={true}
-									value={values.rejectedIn}
+									value={values.applyingIn}
 									onChange={handleChange}
-									error={touched.rejectedIn && Boolean(errors.rejectedIn)}
-									helperText={touched.rejectedIn && errors.rejectedIn?.toLocaleString()}
+									error={touched.applyingIn && Boolean(errors.applyingIn)}
+									helperText={touched.applyingIn && errors.applyingIn?.toLocaleString()}
 									InputProps={{
 										startAdornment: <InputAdornment position="start"><ApartmentIcon /></InputAdornment>,
 									}}

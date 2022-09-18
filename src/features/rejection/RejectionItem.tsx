@@ -182,12 +182,12 @@ const RejectionItem = (props: any) => {
 							<TableRow>
 								<TableCell width={160}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
-										{"Rejected in"}
+										{"Applying in"}
 									</Typography>
 								</TableCell>
 
 								<TableCell>
-									<Typography fontSize={14} color="primary" fontWeight={700}>{meta.rejected_in ? meta.rejected_in : '-'}</Typography>
+									<Typography fontSize={14} color="primary" fontWeight={700}>{meta.applying_in ? meta.applying_in : '-'}</Typography>
 								</TableCell>
 							</TableRow>
 
