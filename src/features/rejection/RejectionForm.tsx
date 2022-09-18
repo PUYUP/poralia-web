@@ -76,7 +76,7 @@ const RejectionForm = (props: {
 							.required('Required field'),
 						appliedAt: Yup.date(),
 						rejectedAt: Yup.date(),
-						rejectionCount: Yup.number()
+						rejectionCount: Yup.number(),
 						lastProcess: Yup.string(),
 						method: Yup.string(),
 						story: Yup.string(),
