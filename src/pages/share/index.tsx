@@ -8,8 +8,10 @@ import { useRetrieveActivityQuery } from "../../features/activity/Api"
 
 const Share = (props: any) => {
 	const { id, action } = props.query
-	// @ts-ignore
-	const { data, isLoading, isSuccess } = id ? useRetrieveActivityQuery({ id: id }) : { 'data': null, isLoading: false, isSuccess: false }
+	const { data, isLoading, isSuccess } = useRetrieveActivityQuery(
+		{ id: id },
+		{ skip: !id }
+	)
 
 	return (
 		<>
