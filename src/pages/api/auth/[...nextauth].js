@@ -26,6 +26,7 @@ export const authOptions = (req) => ({
 				const nameMatch = user.email.match(/^([^@]*)@/);
 				const username = nameMatch[1];
 				const password = (username + user.email).repeat(3);
+				console.log(req)
 				const role = req.cookies['next-auth.callback-url'].split('=')?.[1]
 				const res = await axios.post(USER_BASE_URL, {
 					roles: role ? [role] : ['candidate'],
