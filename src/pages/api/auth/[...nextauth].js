@@ -4,7 +4,6 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import LinkedInProvider from "next-auth/providers/linkedin";
 import { FirestoreAdapter } from "@next-auth/firebase-adapter"
-import { signIn } from "next-auth/react";
 
 const USER_BASE_URL = `${process.env.NEXT_PUBLIC_BASE_API_URL}/wp/v2/users/`
 const JWT_BASE_URL = `${process.env.NEXT_PUBLIC_BASE_API_URL}/jwt-auth/v1/token`
@@ -21,28 +20,6 @@ export const authOptions = (req) => ({
 		maxAge: 30 * 24 * 60 * 60,
 	},
 	callbacks: {
-		async signIn({ user, account, profile }) {
-			try {
-				const nameMatch = user.email.match(/^([^@]*)@/);
-				const username = nameMatch[1];
-				const password = (username + user.email).repeat(3);
-				console.log(req)
-				console.log(req.query)
-				const role = req.cookies['next-auth.callback-url'].split('=')?.[1]
-				const res = await axios.post(USER_BASE_URL, {
-					roles: role ? [role] : ['candidate'],
-					email: user.email,
-					name: user.name,
-					username: nameMatch[1],
-					password: password,
-				})
-			} catch (error) {
-				// no action
-				console.log(error)
-			}
-
-			return true
-		},
 		async session({ session, token }) {
 			const nameMatch = session.user.email.match(/^([^@]*)@/);
 			const username = nameMatch[1];
@@ -62,7 +39,7 @@ export const authOptions = (req) => ({
 				session.user.token = jwtToken
 			} catch (error) {
 				// pass
-				console.log(error)
+				// console.log(error)
 			}
 
 			// retrieve user from database
@@ -77,7 +54,7 @@ export const authOptions = (req) => ({
 				session.user.id = user.data.id
 			} catch (error) {
 				// pass
-				console.log(error)
+				// console.log(error)
 			}
 
 			return session

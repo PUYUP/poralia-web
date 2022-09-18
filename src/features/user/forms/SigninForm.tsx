@@ -17,16 +17,20 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../lib/hooks';
 import { getSession, signIn, useSession } from "next-auth/react"
+import axios from 'axios';
 
 
 const SignInForm = (props: {
 	role: string
 }) => {
+	const USER_BASE_URL = `${process.env.NEXT_PUBLIC_BASE_API_URL}/wp/v2/users`
 	const router = useRouter()
 	const dispatch = useAppDispatch()
 	const { data: sessionData } = useSession()
 	const [acquireToken, result] = useAcquireTokenMutation()
 	const [isError, setIsError] = useState<boolean>(false)
+	const [role, setRole] = useState<string>('candidate')
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const { status } = useSession({ required: false })
 
 	useEffect(() => {
@@ -34,7 +38,37 @@ const SignInForm = (props: {
 	}, [result])
 
 	const retrieveSession = async () => {
+		setIsLoading(true)
+
 		const session = await getSession()
+		
+		// Create user if no exists
+		try {
+			const email = session?.user?.email
+			const nameMatch = email?.match(/^([^@]*)@/);
+			const username = nameMatch?.[1];
+			// @ts-ignore
+			const password = (username + email).repeat(3);
+			const res = await axios.post(USER_BASE_URL, {
+				roles: [role],
+				email: email,
+				name: session?.user?.name,
+				username: username,
+				password: password,
+			})
+		} catch (error) {
+			// no action
+			// console.log(error)
+		}
+
+		setIsLoading(false)
+	}
+
+	const onSignin = async (provider: string, role: string) => {
+		setIsLoading(true)
+		setRole(role)
+		
+		await signIn(provider, {redirect: false})
 	}
 
 	useEffect(() => {
@@ -45,7 +79,7 @@ const SignInForm = (props: {
 
 	return (
 		<>
-			{status == 'loading' ? (
+			{status == 'loading' || isLoading ? (
 				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 					<CircularProgress />
 				</Box>
@@ -56,7 +90,7 @@ const SignInForm = (props: {
 						variant='contained' 
 						color='error' 
 						size='large'
-						onClick={async () => await signIn('google', {redirect: false}, {role: props.role})}
+						onClick={() => onSignin('google', props.role)}
 						sx={{ borderRadius: 6, width: '100%' }}
 						startIcon={<GoogleIcon />}
 					>
@@ -68,7 +102,7 @@ const SignInForm = (props: {
 						variant='contained' 
 						color='error' 
 						size='large'
-						onClick={async () => await signIn('linkedin', {redirect: false}, {role: props.role})}
+						onClick={() => onSignin('linkedin', props.role)}
 						sx={{ 
 							borderRadius: 6, 
 							width: '100%', 
