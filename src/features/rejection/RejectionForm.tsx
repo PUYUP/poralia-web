@@ -77,11 +77,8 @@ const RejectionForm = (props: {
 						appliedAt: Yup.date(),
 						rejectedAt: Yup.date(),
 						rejectionCount: Yup.number()
-							.required('Required field'),
-						lastProcess: Yup.string()
-							.required('Required field'),
-						method: Yup.string()
-							.required('Required field'),
+						lastProcess: Yup.string(),
+						method: Yup.string(),
 						story: Yup.string(),
 					})}
 					onSubmit={async (values, { setSubmitting}) => {
@@ -208,7 +205,6 @@ const RejectionForm = (props: {
 											label={"Total Rejection Until Now"}
 											type="number"
 											placeholder={"eg: 10"}
-											required={true}
 											value={values.rejectionCount}
 											onChange={handleChange}
 											error={touched.rejectionCount && Boolean(errors.rejectionCount)}
@@ -226,7 +222,6 @@ const RejectionForm = (props: {
 											name="lastProcess"
 											label={"Last Recruitment Process"}
 											placeholder={"eg: Interview"}
-											required={true}
 											value={values.lastProcess}
 											onChange={handleChange}
 											error={touched.lastProcess && Boolean(errors.lastProcess)}
@@ -244,7 +239,6 @@ const RejectionForm = (props: {
 									name="method"
 									label={"Rejection Method"}
 									placeholder={"eg: by Phone call"}
-									required={true}
 									value={values.method}
 									onChange={handleChange}
 									error={touched.method && Boolean(errors.method)}
