@@ -280,6 +280,7 @@ const RejectionItem = (props: any) => {
 				</Box>
 
 				<Grid container marginTop={3} gap={2}>
+					{/*
 					<Grid item>
 						<Button 
 							size="small" 
@@ -297,6 +298,7 @@ const RejectionItem = (props: any) => {
 							{`${props.favorite_count} support ${props.favorited ? '' : '| Give one'}`}
 						</Button>
 					</Grid>
+					*/}
 					
 					{ // @ts-ignore
 					data?.user?.id !== author.id && (
