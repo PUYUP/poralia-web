@@ -69,7 +69,7 @@ const AccountCard = (props: {
 				<Grid item xs={12} sm={3}>
 					<Box marginRight={'auto'}>
 						<Avatar 
-							variant="square" 
+							variant="circular" 
 							src={avatar}
 							sx={{
 								marginLeft: 'auto',
