@@ -1,7 +1,6 @@
 import * as React from "react"
 import Head from "next/head"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
+import Box from "@mui/material/Box"
 import DashboardLayout from "../../components/DashboardLayout"
 import RejectionForm from "../../features/rejection/RejectionForm"
 import { useRetrieveActivityQuery } from "../../features/activity/Api"
@@ -20,11 +19,15 @@ const Share = (props: any) => {
 			</Head>
 
 			<DashboardLayout>
-				<Card sx={{ marginBottom: 3, borderRadius: 4, padding: 2 }}>
-					<CardContent>
-						<RejectionForm id={id} action={action} activity={!isLoading && isSuccess ? data?.[0] : {}} isLoading={isLoading} />
-					</CardContent>
-				</Card>
+				<Box 
+					padding={{
+						xs: 1,
+						sm: 3,
+						md: 4,
+					}}
+				>
+					<RejectionForm id={id} action={action} activity={!isLoading && isSuccess ? data?.[0] : {}} isLoading={isLoading} />
+				</Box>
 			</DashboardLayout>
 		</>
 	)

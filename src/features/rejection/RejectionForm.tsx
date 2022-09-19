@@ -64,7 +64,7 @@ const RejectionForm = (props: {
 						jobTitle: rejection ? rejection.title.rendered : '',
 						appliedAt: rejection ? rejection.meta.applied_at : '',
 						rejectedAt: rejection ? rejection.meta.rejected_at : '',
-						rejectionCount: rejection ? rejection.meta.rejection_count : '',
+						// rejectionCount: rejection ? rejection.meta.rejection_count : '',
 						lastProcess: rejection ? rejection.meta.last_process : '',
 						method: rejection ? rejection.meta.method : '',
 						story: rejection ? rejection.content.plain : '',
@@ -76,7 +76,7 @@ const RejectionForm = (props: {
 							.required('Required field'),
 						appliedAt: Yup.date(),
 						rejectedAt: Yup.date(),
-						rejectionCount: Yup.number(),
+						// rejectionCount: Yup.number(),
 						lastProcess: Yup.string(),
 						method: Yup.string(),
 						story: Yup.string(),
@@ -90,7 +90,7 @@ const RejectionForm = (props: {
 								applying_in: values.applyingIn,
 								applied_at: values.appliedAt,
 								rejected_at: values.rejectedAt,
-								rejection_count: values.rejectionCount,
+								// rejection_count: values.rejectionCount,
 								last_process: values.lastProcess,
 								method: values.method,
 							}
@@ -111,7 +111,15 @@ const RejectionForm = (props: {
 						setFieldValue,
 					}) => (
 						<Form>
-							<FormControl fullWidth sx={{ marginBottom: 3 }}>
+							<FormControl 
+								fullWidth 
+								sx={{ 
+									marginBottom: {
+										xs: 3,
+										sm: 4,
+									} 
+								}}
+							>
 								<TextField
 									name="jobTitle"
 									label={"Job Title"}
@@ -119,6 +127,7 @@ const RejectionForm = (props: {
 									required={true}
 									value={values.jobTitle}
 									onChange={handleChange}
+									size={'small'}
 									error={touched.jobTitle && Boolean(errors.jobTitle)}
 									helperText={touched.jobTitle && errors.jobTitle?.toLocaleString()}
 									InputProps={{
@@ -127,11 +136,20 @@ const RejectionForm = (props: {
 								/>
 							</FormControl>
 
-							<FormControl fullWidth sx={{ marginBottom: 3 }}>
+							<FormControl 
+								fullWidth 
+								sx={{ 
+									marginBottom: {
+										xs: 3,
+										sm: 4,
+									} 
+								}}
+							>
 								<TextField
 									name="applyingIn"
 									label={"Applying In"}
 									placeholder={"Company name, workplace name, etc"}
+									size={'small'}
 									required={true}
 									value={values.applyingIn}
 									onChange={handleChange}
@@ -148,7 +166,15 @@ const RejectionForm = (props: {
 								sm: 2
 							}}>
 								<Grid item xs={12} sm={6}>
-									<FormControl fullWidth sx={{ marginBottom: 3 }}>
+									<FormControl 
+										fullWidth 
+										sx={{ 
+											marginBottom: {
+												xs: 3,
+												sm: 4,
+											} 
+										}}
+									>
 										<MobileDatePicker
 											label={"Applied At"}
 											inputFormat="MM/DD/YYYY"
@@ -159,6 +185,7 @@ const RejectionForm = (props: {
 											renderInput={(params) => <TextField 
 												{...params} 
 												name="appliedAt"
+												size={'small'}
 												error={touched.appliedAt && Boolean(errors.appliedAt)}
 												helperText={touched.appliedAt && errors.appliedAt?.toLocaleString()}
 												InputProps={{
@@ -171,7 +198,15 @@ const RejectionForm = (props: {
 								</Grid>
 								
 								<Grid item xs={12} sm={6}>
-									<FormControl fullWidth sx={{ marginBottom: 3 }}>
+									<FormControl 
+										fullWidth 
+										sx={{ 
+											marginBottom: {
+												xs: 3,
+												sm: 4,
+											} 
+										}}
+									>
 										<MobileDatePicker
 											label={"Rejected At"}
 											inputFormat="MM/DD/YYYY"
@@ -182,6 +217,7 @@ const RejectionForm = (props: {
 											renderInput={(params) => <TextField 
 												{...params} 
 												name="rejectedAt"
+												size={'small'}
 												error={touched.rejectedAt && Boolean(errors.rejectedAt)}
 												helperText={touched.rejectedAt && errors.rejectedAt?.toLocaleString()}
 												InputProps={{
@@ -198,13 +234,23 @@ const RejectionForm = (props: {
 								xs: 0,
 								sm: 2
 							}}>
+								{/*
 								<Grid item xs={12} sm={6}>
-									<FormControl fullWidth sx={{ marginBottom: 3 }}>
+									<FormControl 
+										fullWidth 
+										sx={{ 
+											marginBottom: {
+												xs: 3,
+												sm: 4,
+											} 
+										}}
+									>
 										<TextField
 											name="rejectionCount"
 											label={"Total Rejection Until Now"}
 											type="number"
 											placeholder={"eg: 10"}
+											size={'small'}
 											value={values.rejectionCount}
 											onChange={handleChange}
 											error={touched.rejectionCount && Boolean(errors.rejectionCount)}
@@ -215,13 +261,23 @@ const RejectionForm = (props: {
 										/>
 									</FormControl>
 								</Grid>
+								*/}
 
-								<Grid item xs={12} sm={6}>
-									<FormControl fullWidth sx={{ marginBottom: 3 }}>
+								<Grid item xs={12} sm={12}>
+									<FormControl 
+										fullWidth 
+										sx={{ 
+											marginBottom: {
+												xs: 3,
+												sm: 4,
+											} 
+										}}
+									>
 										<TextField
 											name="lastProcess"
 											label={"Last Recruitment Process"}
 											placeholder={"eg: Interview"}
+											size={'small'}
 											value={values.lastProcess}
 											onChange={handleChange}
 											error={touched.lastProcess && Boolean(errors.lastProcess)}
@@ -234,11 +290,20 @@ const RejectionForm = (props: {
 								</Grid>
 							</Grid>
 
-							<FormControl fullWidth sx={{ marginBottom: 3 }}>
+							<FormControl 
+								fullWidth 
+								sx={{ 
+									marginBottom: {
+										xs: 3,
+										sm: 4,
+									} 
+								}}
+							>
 								<TextField
 									name="method"
 									label={"Rejection Method"}
 									placeholder={"eg: by Phone call"}
+									size={'small'}
 									value={values.method}
 									onChange={handleChange}
 									error={touched.method && Boolean(errors.method)}
@@ -249,13 +314,22 @@ const RejectionForm = (props: {
 								/>
 							</FormControl>
 
-							<FormControl fullWidth sx={{ marginBottom: 3 }}>
+							<FormControl 
+								fullWidth 
+								sx={{ 
+									marginBottom: {
+										xs: 3,
+										sm: 4,
+									} 
+								}}
+							>
 								<TextField
 									multiline
 									maxRows={300}
 									name="story"
 									label={"Rejection Story"}
 									placeholder={"Your story about this rejection such as how to get this job, recruitment story, etc. Feel free to tell us."}
+									size={'small'}
 									value={values.story}
 									onChange={handleChange}
 									error={touched.story && Boolean(errors.story)}
