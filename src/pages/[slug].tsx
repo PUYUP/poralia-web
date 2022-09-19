@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
+import Head from 'next/head'
 import DashboardLayout from "../components/DashboardLayout"
 import AccountCard from '../features/user/AccountCard'
 import ActivityList from '../features/user/ActivityList'
@@ -10,6 +11,10 @@ const Account = (props: any) => {
 
 	return (
 		<>
+			<Head>
+				<title>{isSuccess ? data.username : 'Loading...'} | Poralia</title>
+			</Head>
+
 			<DashboardLayout>
 				{isLoading ? (
 					<Box sx={{ display: 'flex', justifyContent: 'center' }}>
