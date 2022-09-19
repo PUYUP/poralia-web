@@ -29,13 +29,10 @@ export const activityApi = createApi({
 					method: 'GET',
 				}
 			},
-			providesTags: (result) =>
-				result
-				? [
-					...result.map(({ id }: any) => ({ type: 'Activity' as const, id })),
-					{ type: 'Activity', id: 'LIST' },
-				]
-				: [{ type: 'Activity', id: 'LIST' }],
+			providesTags: (result = []) => [
+				...result.map(({ id }: any) => ({ type: 'Activity', id } as const)),
+				{ type: 'Activity' as const, id: 'LIST' },
+			],
 		}),
 		retrieveActivity: build.query<any, any>({
 			query: ({ id }) => ({
@@ -63,7 +60,8 @@ export const activityApi = createApi({
 						})
 					})
 				)
-			}
+			},
+			invalidatesTags: [{ type: 'Activity', id: 'LIST' }],
 		}),
 		updateRejectionActivity: build.mutation<any, any>({
 			query: ({id, ...body}) => ({
@@ -79,14 +77,15 @@ export const activityApi = createApi({
 						drafts[index].rejection = data
 					})
 				)
-			}
+			},
+			invalidatesTags: (activity) => [{ type: 'Activity', id: activity?.id }],
 		}),
 		deleteActivity: build.mutation<{ success: boolean; id: number }, number>({
 			query: (id) => ({
 				url: `/buddypress/v1/activity/${id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: (result, error, id) => [{ type: 'Activity', id }],
+			invalidatesTags: (activity) => [{ type: 'Activity', id: activity?.id }],
 		}),
 		favoriteActivity: build.mutation<any, any>({
 			query: (id) => ({
