@@ -278,30 +278,11 @@ const RejectionItem = (props: any) => {
 						</TableBody>
 					</Table>
 				</Box>
-
-				<Grid container marginTop={3} gap={2}>
-					{/*
-					<Grid item>
-						<Button 
-							size="small" 
-							variant="text" 
-							sx={{ 
-								paddingLeft: 1.5, 
-								paddingRight: 1.5,
-								borderRadius: 10
-							}}
-							startIcon={
-								props.favorited ? <FavoriteIcon /> : <FavoriteBorderIcon />
-							}
-							onClick={() => onFavorited(props.id)}
-						>
-							{`${props.favorite_count} support ${props.favorited ? '' : '| Give one'}`}
-						</Button>
-					</Grid>
-					*/}
-					
-					{ // @ts-ignore
-					data?.user?.id !== author.id && (
+				
+				{ // @ts-ignore
+				data?.user?.id !== author.id && (
+					<Grid container marginTop={3} gap={2}>
+						{/*
 						<Grid item>
 							<Button 
 								size="small" 
@@ -311,12 +292,34 @@ const RejectionItem = (props: any) => {
 									paddingRight: 1.5,
 									borderRadius: 10
 								}}
+								startIcon={
+									props.favorited ? <FavoriteIcon /> : <FavoriteBorderIcon />
+								}
+								onClick={() => onFavorited(props.id)}
 							>
-								{"Inform a job"}
+								{`${props.favorite_count} support ${props.favorited ? '' : '| Give one'}`}
 							</Button>
 						</Grid>
-					)}
-				</Grid>
+						*/}
+						
+						{ // @ts-ignore
+						data?.user?.id !== author.id && (
+							<Grid item>
+								<Button 
+									size="small" 
+									variant="text" 
+									sx={{ 
+										paddingLeft: 1.5, 
+										paddingRight: 1.5,
+										borderRadius: 10
+									}}
+								>
+									{"Inform a job"}
+								</Button>
+							</Grid>
+						)}
+					</Grid>
+				)}
 			</CardContent>
 		</Card>
 	)
