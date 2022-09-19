@@ -23,10 +23,10 @@ const MyAccount = () => {
 						<CircularProgress />
 					</Box>
 				) : (
-					<AccountCard user={data} />
+					<AccountCard user={data} isMe={true} />
 				)}
 
-				{session && <ActivityList session={session} />}
+				{session && <ActivityList userId={session?.user?.id} />}
 			</DashboardLayout>
 		</>
 	)

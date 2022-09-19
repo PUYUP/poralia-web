@@ -38,8 +38,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 const AccountCard = (props: {
 	user: any,
+	isMe: boolean,
 }) => {
-	const avatar = props?.user?.simple_local_avatar ? props?.user?.simple_local_avatar : props.user?.avatar_urls?.[96]
+	const avatar = props?.user?.simple_local_avatar ? props?.user?.simple_local_avatar?.[192] : props.user?.avatar_urls?.[96]
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [expandedAbout, setExpandedAbout] = React.useState<boolean>(false)
 	const theme = useTheme();
@@ -64,7 +65,7 @@ const AccountCard = (props: {
 
 	return (
 		<>
-			<Grid container alignItems={'top'}>
+			<Grid container alignItems={'center'}>
 				<Grid item xs={12} sm={3}>
 					<Box marginRight={'auto'}>
 						<Avatar 
@@ -109,14 +110,16 @@ const AccountCard = (props: {
 						<Typography color={grey[600]}>@{props.user.username}</Typography>
 					</Box>
 
-					<Box marginTop={2}>
-						<Button
-							startIcon={<BorderColorIcon />}
-							onClick={handleClickOpen}
-						>
-							{"Edit account"}
-						</Button>
-					</Box>
+					{props.isMe &&
+						<Box marginTop={2}>
+							<Button
+								startIcon={<BorderColorIcon />}
+								onClick={handleClickOpen}
+							>
+								{"Edit account"}
+							</Button>
+						</Box>
+					}
 				</Grid>
 
 				<Grid item xs={12}>

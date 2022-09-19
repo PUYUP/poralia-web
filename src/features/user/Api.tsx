@@ -81,6 +81,12 @@ export const userApi = createApi({
 					})
 				)
 			}
+		}),
+		retrieveUser: build.query<any, any>({
+			query: (username: string) => ({
+				url: `/wp/v2/users/${username}`,
+				method: 'GET',
+			})
 		})
 	})
 })
@@ -92,5 +98,6 @@ export const {
 	useGenerateOtpMutation,
 	useUpdateUserMutation,
 	useValidateOtpMutation,
-	useRetrieveMeQuery
+	useRetrieveMeQuery,
+	useRetrieveUserQuery,
 } = userApi

@@ -29,12 +29,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useSession } from "next-auth/react";
 import { yellow } from '@mui/material/colors';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useDeleteActivityMutation, useFavoriteActivityMutation } from '../activity/Api';
 import Swal from 'sweetalert2'
-import { useEffect } from 'react'
 
 
 const RejectionItem = (props: any) => {
+	const router = useRouter()
 	const { data } = useSession()
 	const { author, rejection } = props
 	const meta = rejection.meta
@@ -68,6 +69,10 @@ const RejectionItem = (props: any) => {
 			  	await deleteActivity(id)
 			}
 		})
+	}
+
+	const goToUser = (username: string) => {
+		router.push(username)
 	}
 
 	return (
@@ -131,12 +136,19 @@ const RejectionItem = (props: any) => {
 							</>
 						)}
 					>
-						<ListItemAvatar>
+						<ListItemAvatar 
+							onClick={() => goToUser(author.username)}
+							sx={{ cursor: 'pointer' }}
+						>
 							<Avatar src={avatar}>
 								<ImageIcon />
 							</Avatar>
 						</ListItemAvatar>
-						<ListItemText secondary={moment(rejection.date_gmt).format('lll')}>
+						<ListItemText 
+							secondary={moment(rejection.date_gmt).format('lll')} 
+							onClick={() => goToUser(author.username)}
+							sx={{ cursor: 'pointer' }}
+						>
 							<Typography fontWeight={700}>{author.name}</Typography>
 						</ListItemText>
 					</ListItem>

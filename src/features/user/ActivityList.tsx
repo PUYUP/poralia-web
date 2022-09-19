@@ -5,9 +5,9 @@ import { useListActivityQuery } from "../activity/Api"
 import RejectionItem from '../rejection/RejectionItem'
 
 const ActivityList = (props: {
-	session: any
+	userId: string,
 }) => {
-	const { data: rejections, isSuccess, isLoading } = useListActivityQuery({ type: 'new_rejection', user_id: props.session?.user?.id })
+	const { data: rejections, isSuccess, isLoading } = useListActivityQuery({ type: 'new_rejection', user_id: props.userId })
 
 	return (
 		<>
