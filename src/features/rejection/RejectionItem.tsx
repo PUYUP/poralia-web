@@ -167,6 +167,7 @@ const RejectionItem = (props: any) => {
 						}}
 					>
 						<TableBody>
+							{/*
 							<TableRow>
 								<TableCell width={160}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -178,6 +179,7 @@ const RejectionItem = (props: any) => {
 									<Typography fontSize={14} color="primary" fontWeight={700}>{`This for ${meta.rejection_count} times`}</Typography>
 								</TableCell>
 							</TableRow>
+							*/}
 
 							<TableRow>
 								<TableCell width={160}>
