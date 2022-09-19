@@ -18,7 +18,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTheme } from '@mui/material/styles';
 import * as React from 'react'
 import { styled } from '@mui/material/styles';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import AccountForm from './forms/AccountForm'
+import { useUpdateUserMutation, useUploadAvatarMutation } from './Api'
 
 interface ExpandMoreProps extends IconButtonProps {
 	expand: boolean;
@@ -45,6 +47,7 @@ const AccountCard = (props: {
 	const [expandedAbout, setExpandedAbout] = React.useState<boolean>(false)
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
+	const [uploadAvatar, isSuccess] = useUploadAvatarMutation()
   
 	const handleClickOpen = () => {
 	  	setOpen(true);
@@ -63,11 +66,20 @@ const AccountCard = (props: {
 		setOpen(false);
 	}
 
+	const onAvatarChange = (event: any) => {
+		const payload = new FormData();
+
+		payload.append('is_avatar', '1');
+		payload.append('file', event.target.files[0])
+
+		uploadAvatar(payload)
+	}
+
 	return (
 		<>
 			<Grid container alignItems={'center'}>
 				<Grid item xs={12} sm={3}>
-					<Box marginRight={'auto'}>
+					<Box marginRight={'auto'} position={'relative'}>
 						<Avatar 
 							variant="circular" 
 							src={avatar}
@@ -90,6 +102,26 @@ const AccountCard = (props: {
 						>
 							<PersonIcon />
 						</Avatar>
+
+						{props.isMe && (
+							<Box
+								sx={{
+									position: 'absolute',
+									top: 0,
+									right: 0,
+									bottom: 0,
+									left: 0,
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<IconButton color="primary" aria-label="upload picture" component="label">
+									<input hidden accept="image/*" type="file" onChange={onAvatarChange} />
+									<PhotoCamera />
+								</IconButton>
+							</Box>
+						)}
 					</Box>
 				</Grid>
 

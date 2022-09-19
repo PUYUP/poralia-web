@@ -87,7 +87,27 @@ export const userApi = createApi({
 				url: `/wp/v2/users/${username}`,
 				method: 'GET',
 			})
-		})
+		}),
+		uploadAvatar: build.mutation<any, any>({
+			query: (body) => ({
+				url: `/wp/v2/media`,
+				method: 'POST',
+				body: body,
+			}),
+			async onQueryStarted(body, { dispatch, queryFulfilled }) {
+				const { data } = await queryFulfilled
+
+				const patchResult = dispatch(
+					userApi.util.updateQueryData('retrieveMe', 'me', draft => {
+						Object.assign(draft, {
+							simple_local_avatar: {
+								192: data?.['192']
+							}
+						})
+					})
+				)
+			}
+		}),
 	})
 })
 
@@ -98,6 +118,7 @@ export const {
 	useGenerateOtpMutation,
 	useUpdateUserMutation,
 	useValidateOtpMutation,
+	useUploadAvatarMutation,
 	useRetrieveMeQuery,
 	useRetrieveUserQuery,
 } = userApi
