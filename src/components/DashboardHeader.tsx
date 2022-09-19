@@ -108,12 +108,16 @@ const DashboardHeader = (props: any) => {
 							</Link>
 						</Typography>
 					</Box>
-
+						
 					<Box order={{
 						xs: 2,
 						sm: 2,
 					}}>
-						<Image src={'/poralia-logo-white.png'} width="34" height="34" />
+						<Link href="/rejection">
+							<a>
+								<Image src={'/poralia-logo-white.png'} width="34" height="34" />
+							</a>
+						</Link>
 					</Box>
 					
 					<Box order={3}>
