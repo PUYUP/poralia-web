@@ -22,7 +22,7 @@ export const authOptions = (req) => ({
 	callbacks: {
 		async session({ session, user }) {
 			const email = user.email;
-			const password = user.id;
+			const password = email.repeat(5);
 
 			// insert google user
 			session.user.auth = user

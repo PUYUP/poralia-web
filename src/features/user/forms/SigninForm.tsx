@@ -45,7 +45,7 @@ const SignInForm = (props: {
 			const nameMatch = email?.match(/^([^@]*)@/);
 			const username = nameMatch?.[1];
 			// @ts-ignore
-			const password = auth.id;
+			const password = email.repeat(5);
 			const res = await axios.post(USER_BASE_URL, {
 				roles: [props.role],
 				email: email,
