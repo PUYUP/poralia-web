@@ -26,7 +26,10 @@ const MyAccount = () => {
 					<AccountCard user={data} isMe={true} />
 				)}
 
-				{session && <ActivityList userId={session?.user?.id} />}
+				{
+					// @ts-ignore
+					session && <ActivityList userId={session?.user?.id} />
+				}
 			</DashboardLayout>
 		</>
 	)
