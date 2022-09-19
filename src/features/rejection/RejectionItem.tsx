@@ -243,7 +243,16 @@ const RejectionItem = (props: any) => {
 								</TableCell>
 
 								<TableCell>
-									<Typography fontSize={14} component='div' whiteSpace={'pre-line'} dangerouslySetInnerHTML={{__html: rejection.content.rendered ? rejection.content.rendered : '-'}}></Typography>
+									<Typography 
+										fontSize={14} 
+										component='div' 
+										dangerouslySetInnerHTML={{__html: rejection.content.rendered ? rejection.content.rendered : '-'}}
+										sx={{
+											[`& p + p`]: {
+												marginTop: 1
+											}
+										}}
+									></Typography>
 								</TableCell>
 							</TableRow>
 
