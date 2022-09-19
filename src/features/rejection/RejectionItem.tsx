@@ -39,7 +39,7 @@ const RejectionItem = (props: any) => {
 	const { data } = useSession()
 	const { author, rejection } = props
 	const meta = rejection.meta
-	const avatar = author.simple_local_avatar?.[96]
+	const avatar = author.simple_local_avatar ? author.simple_local_avatar?.[96] : props?.user_avatar?.['thumb']
 	const [favoriteActivity, favoritedResult] = useFavoriteActivityMutation()
 	const [deleteActivity, deletedResult] = useDeleteActivityMutation()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
