@@ -2,11 +2,8 @@ import * as React from 'react'
 import Typography from "@mui/material/Typography"
 import Box from "@mui/material/Box"
 import Grid from "@mui/material/Grid"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import { amber, grey } from "@mui/material/colors"
-import RateReviewIcon from '@mui/icons-material/RateReview';
 import TuneIcon from '@mui/icons-material/Tune';
 import Drawer from '@mui/material/Drawer';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
@@ -14,7 +11,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
-import Stack from '@mui/material/Stack';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
+import Divider from '@mui/material/Divider';
 import Head from "next/head"
 import Link from "next/link"
 import DashboardLayout from "../../components/DashboardLayout"
@@ -76,8 +74,16 @@ const Rejection = (props: any) => {
 					<Grid container alignItems={'center'}>
 						<Grid item xs={7}>
 							<Link href="/share">
-								<Button variant="contained" sx={{ borderRadius: 10 }} startIcon={<RateReviewOutlinedIcon />}>
+								<Button variant="contained" sx={{ borderRadius: 10, width: 190 }} startIcon={<RateReviewOutlinedIcon />}>
 									{"Share My Rejection"}
+								</Button>
+							</Link>
+
+							<Divider textAlign="left" sx={{ marginTop: 2, marginBottom: 2 }}>{"or"}</Divider>
+
+							<Link href="/share/application">
+								<Button variant="outlined" sx={{ borderRadius: 10, width: 190 }} startIcon={<WorkHistoryIcon />}>
+									{"Save My Application"}
 								</Button>
 							</Link>
 						</Grid>

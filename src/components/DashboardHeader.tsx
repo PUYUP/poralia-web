@@ -2,10 +2,10 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
@@ -52,6 +52,22 @@ const BasicMenu = (props: {
 					'aria-labelledby': 'basic-button',
 				}}
 			>	
+				<Link href={'/account/application'}>
+					<MenuItem>
+						<ListItemIcon>
+							<WorkHistoryIcon fontSize="small" />
+						</ListItemIcon>
+						<ListItemText>{"Application"}</ListItemText>
+					</MenuItem>
+				</Link>
+				<Link href={'/account/application'}>
+					<MenuItem>
+						<ListItemIcon>
+							<VolunteerActivismIcon fontSize="small" />
+						</ListItemIcon>
+						<ListItemText>{"Jobs Offer"}</ListItemText>
+					</MenuItem>
+				</Link>
 				<Link href={'/account'}>
 					<MenuItem>
 						<ListItemIcon>

@@ -12,9 +12,7 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import BusinessIcon from '@mui/icons-material/Business';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -181,7 +179,7 @@ const RejectionItem = (props: any) => {
 						<TableBody>
 							{/*
 							<TableRow>
-								<TableCell width={160}>
+								<TableCell width={140}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Total rejection"}
 									</Typography>
@@ -194,7 +192,7 @@ const RejectionItem = (props: any) => {
 							*/}
 
 							<TableRow>
-								<TableCell width={160}>
+								<TableCell width={140}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Applying in"}
 									</Typography>
@@ -206,7 +204,7 @@ const RejectionItem = (props: any) => {
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={160}>
+								<TableCell width={140}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Applied at"}
 									</Typography>
@@ -216,7 +214,7 @@ const RejectionItem = (props: any) => {
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={160}>
+								<TableCell width={140}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Rejected at"}
 									</Typography>
@@ -226,7 +224,7 @@ const RejectionItem = (props: any) => {
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={160}>
+								<TableCell width={140}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Last process stage"}
 									</Typography>
@@ -238,7 +236,7 @@ const RejectionItem = (props: any) => {
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={160}>
+								<TableCell width={140}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Method"}
 									</Typography>
@@ -250,7 +248,7 @@ const RejectionItem = (props: any) => {
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={160} sx={{ verticalAlign: 'top' }}>
+								<TableCell width={140} sx={{ verticalAlign: 'top' }}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Rejection story"}
 									</Typography>
@@ -272,7 +270,7 @@ const RejectionItem = (props: any) => {
 
 							{rejection.skills && (
 								<TableRow>
-									<TableCell width={160}>
+									<TableCell width={140}>
 										<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 											{"My skills"}
 										</Typography>
@@ -331,13 +329,14 @@ const RejectionItem = (props: any) => {
 								<Button 
 									size="small" 
 									variant="text" 
+									startIcon={<VolunteerActivismIcon />}
 									sx={{ 
 										paddingLeft: 1.5, 
 										paddingRight: 1.5,
 										borderRadius: 10
 									}}
 								>
-									{"Inform a job"}
+									{"Offer a job"}
 								</Button>
 							</Grid>
 						)}
