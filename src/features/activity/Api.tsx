@@ -113,6 +113,15 @@ export const activityApi = createApi({
 				)
 			}
 		}),
+		listTags: build.query<any, any>({
+			query: ({ ...params }) => {
+				const urlParams = new URLSearchParams(params)
+				return {
+					url: `/wp/v2/tags?${urlParams}`,
+					method: 'GET',
+				}
+			},
+		}),
 	})
 })
 
@@ -125,5 +134,6 @@ export const {
 	useListActivityQuery,
 	useRetrieveActivityQuery,
 	useFavoriteActivityMutation,
+	useListTagsQuery,
 } = activityApi
 

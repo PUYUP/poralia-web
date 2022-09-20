@@ -3,9 +3,11 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { userApi } from '../features/user/Api';
 import { activityApi } from '../features/activity/Api';
 import { userSlice } from "../features/user/Slice";
+import { rejectionSlice } from "../features/rejection/Slice";
 
 export const store = configureStore({
 	reducer: {
+		[rejectionSlice.name]: rejectionSlice.reducer,
 		[userSlice.name]: userSlice.reducer,
 		[userApi.reducerPath]: userApi.reducer,
 		[activityApi.reducerPath]: activityApi.reducer,
