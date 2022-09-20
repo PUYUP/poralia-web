@@ -3,9 +3,9 @@ import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import RejectionItem from './RejectionItem'
 import { useListActivityQuery } from '../activity/Api'
-import { useDispatch } from 'react-redux'
 
-const RejectionList = React.forwardRef((props: any, ref) => {
+
+const RejectionList = (props: any, ref: any) => {
 	const [filter, setFilter] = React.useState<any>({ type: 'new_rejection' })
 	const { data: data, isLoading, isSuccess, refetch, isFetching } = useListActivityQuery(filter)
 
@@ -53,6 +53,6 @@ const RejectionList = React.forwardRef((props: any, ref) => {
 		</>
 		
 	)
-})
+}
 
-export default RejectionList
+export default React.forwardRef(RejectionList)
