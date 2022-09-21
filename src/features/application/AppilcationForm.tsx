@@ -77,6 +77,7 @@ const ApplicationForm = (props: {
 							meta: {
 								applying_in: values.applyingIn,
 								applied_at: values.appliedAt,
+								privacy: 'private',
 							}
 						}
 
