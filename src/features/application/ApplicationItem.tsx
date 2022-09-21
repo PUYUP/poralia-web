@@ -57,6 +57,10 @@ const ApplicationItem = (props: any) => {
 		})
 	}
 
+	const onRejected = () => {
+		props.onRejected(props)
+	}
+
 	return (
 		<Card sx={{ 
 			marginBottom: 3, 
@@ -171,7 +175,7 @@ const ApplicationItem = (props: any) => {
 
 					<Box marginTop={3}>
 						<Typography fontSize={12} marginBottom={1}>{"What happen with this application?"}</Typography>
-						<Button startIcon={<WorkOffIcon />} size="small" sx={{ borderRadius: 5 }}>{"Rejected"}</Button>
+						<Button startIcon={<WorkOffIcon />} size="small" sx={{ borderRadius: 5 }} onClick={onRejected}>{"Rejected"}</Button>
 						<Button startIcon={<CheckIcon />} size="small" sx={{ marginLeft: 2, borderRadius: 5 }}>{"Accepted"}</Button>
 					</Box>
 				</Box>

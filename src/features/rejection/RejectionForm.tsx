@@ -31,8 +31,10 @@ const RejectionForm = (props: {
 	const router = useRouter()
 	const [createRejection, createResult] = useCreateRejectionActivityMutation()
 	const [updateRejection, updateResult] = useUpdateRejectionActivityMutation()
+	
 	const [privacyChecked, setPrivacyChecked] = useState(false)
-	const { rejection }: any = props.activity
+	const { rejection, application }: any = props.activity
+	const data = rejection || application
 
 	const handlePrivacyChange = (event: any) => {
 		setPrivacyChecked(event.target.checked)
@@ -45,10 +47,10 @@ const RejectionForm = (props: {
 	}, [createResult, updateResult])
 
 	useEffect(() => {
-		if (rejection) {
-			setPrivacyChecked(rejection.meta.privacy == 'private' ? true : false)
+		if (data) {
+			setPrivacyChecked(data.meta.privacy == 'private' ? true : false)
 		}
-	}, [rejection])
+	}, [data])
 
 	return (
 		<>
@@ -74,15 +76,15 @@ const RejectionForm = (props: {
 				<Formik
 					enableReinitialize={true}
 					initialValues={{
-						applyingIn: rejection ? rejection.meta.applying_in : '',
-						jobTitle: rejection ? rejection.title.rendered : '',
-						appliedAt: rejection ? rejection.meta.applied_at : '',
-						rejectedAt: rejection ? rejection.meta.rejected_at : '',
-						// rejectionCount: rejection ? rejection.meta.rejection_count : '',
-						lastProcess: rejection ? rejection.meta.last_process : '',
-						method: rejection ? rejection.meta.method : '',
-						story: rejection ? rejection.content.plain : '',
-						privacy: rejection ? rejection.meta.privacy : 'private',
+						applyingIn: data ? data.meta.applying_in : '',
+						jobTitle: data ? data.title.rendered : '',
+						appliedAt: data ? data.meta.applied_at : '',
+						rejectedAt: data ? data.meta.rejected_at : '',
+						// rejectionCount: data ? data.meta.rejection_count : '',
+						lastProcess: data ? data.meta.last_process : '',
+						method: data ? data.meta.method : '',
+						story: data ? data.content.plain : '',
+						privacy: data ? data.meta.privacy : 'private',
 					}}
 					validationSchema={Yup.object({
 						applyingIn: Yup.string()
@@ -115,7 +117,7 @@ const RejectionForm = (props: {
 						}
 
 						if (props.id && props.action === 'edit') {
-							await updateRejection({id: rejection?.id, ...postData})
+							await updateRejection({id: data?.id, ...postData})
 						} else {
 							await createRejection({...postData})
 						}
