@@ -61,7 +61,6 @@ const ApplicationForm = (props: {
 						applyingIn: application ? application.meta.applying_in : '',
 						jobTitle: application ? application.title.rendered : '',
 						appliedAt: application ? application.meta.applied_at : '',
-						story: application ? application.content.plain : '',
 					}}
 					validationSchema={Yup.object({
 						applyingIn: Yup.string()
@@ -69,12 +68,11 @@ const ApplicationForm = (props: {
 						jobTitle: Yup.string()
 							.required('Required field'),
 						appliedAt: Yup.date(),
-						story: Yup.string(),
 					})}
 					onSubmit={async (values, { setSubmitting}) => {
 						const postData = {
 							title: values.jobTitle,
-							content: values.story,
+							content: '',
 							status: 'publish',
 							meta: {
 								applying_in: values.applyingIn,
@@ -183,29 +181,6 @@ const ApplicationForm = (props: {
 									</FormControl>
 								</Grid>
 							</Grid>
-
-							<FormControl 
-								fullWidth 
-								sx={{ 
-									marginBottom: {
-										xs: 3,
-										sm: 4,
-									} 
-								}}
-							>
-								<TextField
-									multiline
-									maxRows={300}
-									name="story"
-									label={"Application Story"}
-									placeholder={"Your story about this application such as how to get this job, recruitment story, etc. Feel free to tell us."}
-									size={'small'}
-									value={values.story}
-									onChange={handleChange}
-									error={touched.story && Boolean(errors.story)}
-									helperText={touched.story && errors.story?.toLocaleString()}
-								/>
-							</FormControl>
 
 							<Box>
 								<Button 

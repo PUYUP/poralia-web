@@ -13,10 +13,13 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableRow from '@mui/material/TableRow';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Button from "@mui/material/Button";
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DeleteIcon from '@mui/icons-material/Delete';
+import WorkOffIcon from '@mui/icons-material/WorkOff';
 import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
 import { useSession } from "next-auth/react";
 import { yellow } from '@mui/material/colors';
 import Link from 'next/link';
@@ -163,29 +166,14 @@ const ApplicationItem = (props: any) => {
 
 								<TableCell>{meta.applied_at ? moment(meta.applied_at).format('LL') : '-'}</TableCell>
 							</TableRow>
-
-							<TableRow>
-								<TableCell width={140} sx={{ verticalAlign: 'top' }}>
-									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
-										{"Application story"}
-									</Typography>
-								</TableCell>
-
-								<TableCell>
-									<Typography 
-										fontSize={14} 
-										component='div' 
-										dangerouslySetInnerHTML={{__html: application.content.rendered ? application.content.rendered : '-'}}
-										sx={{
-											[`& p + p`]: {
-												marginTop: 1
-											}
-										}}
-									></Typography>
-								</TableCell>
-							</TableRow>
 						</TableBody>
 					</Table>
+
+					<Box marginTop={3}>
+						<Typography fontSize={12} marginBottom={1}>{"What happen with this application?"}</Typography>
+						<Button startIcon={<WorkOffIcon />} size="small" sx={{ borderRadius: 5 }}>{"Rejected"}</Button>
+						<Button startIcon={<CheckIcon />} size="small" sx={{ marginLeft: 2, borderRadius: 5 }}>{"Accepted"}</Button>
+					</Box>
 				</Box>
 			</CardContent>
 		</Card>
