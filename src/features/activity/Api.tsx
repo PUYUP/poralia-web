@@ -40,7 +40,44 @@ export const activityApi = createApi({
 				method: 'GET',
 			})
 		}),
-		// actualy is rejection post type
+		deleteActivity: build.mutation<{ success: boolean; id: number }, number>({
+			query: (id) => ({
+				url: `/buddypress/v1/activity/${id}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: (activity) => [{ type: 'Activity', id: activity?.id }],
+		}),
+		favoriteActivity: build.mutation<any, any>({
+			query: (id) => ({
+				url: `/buddypress/v1/activity/${id}/favorite`,
+				method: 'POST',
+			}),
+			async onQueryStarted(activityId, { dispatch, queryFulfilled }) {
+				// `updateQueryData` requires the endpoint name and cache key arguments,
+				// so it knows which piece of cache state to update
+				const { data } = await queryFulfilled
+				const patchResult = dispatch(
+				  	activityApi.util.updateQueryData('listActivity', { type: 'new_rejection' }, draft => {
+						// The `draft` is Immer-wrapped and can be "mutated" like in createSlice
+						const post = draft.find((post: any) => post.id == activityId)
+						if (post) {
+							if (data?.[0]?.favorite_count > post.favorite_count) {
+					  			post.favorite_count++
+								post.favorited = true
+							} else {
+								post.favorite_count--
+								post.favorited = false
+							}
+						}
+				  	})
+				)
+			}
+		}),
+		
+		/**
+		 * POST TYPE START HERE
+		 */
+		// REJECTION
 		createRejectionActivity: build.mutation<any, any>({
 			query: (body) => ({
 				url: `/wp/v2/rejections`,
@@ -80,39 +117,48 @@ export const activityApi = createApi({
 			},
 			invalidatesTags: (activity) => [{ type: 'Activity', id: activity?.id }],
 		}),
-		deleteActivity: build.mutation<{ success: boolean; id: number }, number>({
-			query: (id) => ({
-				url: `/buddypress/v1/activity/${id}`,
-				method: 'DELETE',
-			}),
-			invalidatesTags: (activity) => [{ type: 'Activity', id: activity?.id }],
-		}),
-		favoriteActivity: build.mutation<any, any>({
-			query: (id) => ({
-				url: `/buddypress/v1/activity/${id}/favorite`,
+
+		// APPLICATION
+		createApplication: build.mutation<any, any>({
+			query: (body) => ({
+				url: `/wp/v2/applications`,
 				method: 'POST',
+				body: body,
 			}),
-			async onQueryStarted(activityId, { dispatch, queryFulfilled }) {
-				// `updateQueryData` requires the endpoint name and cache key arguments,
-				// so it knows which piece of cache state to update
+			async onQueryStarted({...newObj}, { dispatch, queryFulfilled }) {
+				const { data } = await queryFulfilled
+				const { activity, author } = data
+				
+				const patchResult = dispatch(
+					activityApi.util.updateQueryData('listActivity', { type: 'new_application' }, drafts => {
+						drafts.unshift({ 
+							...activity, 
+							application: data,
+							author: author,
+						})
+					})
+				)
+			},
+			invalidatesTags: [{ type: 'Activity', id: 'LIST' }],
+		}),
+		updateApplication: build.mutation<any, any>({
+			query: ({id, ...body}) => ({
+				url: `/wp/v2/applications/${id}`,
+				method: 'PUT',
+				body: body,
+			}),
+			async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled }) {
 				const { data } = await queryFulfilled
 				const patchResult = dispatch(
-				  	activityApi.util.updateQueryData('listActivity', { type: 'new_rejection' }, draft => {
-						// The `draft` is Immer-wrapped and can be "mutated" like in createSlice
-						const post = draft.find((post: any) => post.id == activityId)
-						if (post) {
-							if (data?.[0]?.favorite_count > post.favorite_count) {
-					  			post.favorite_count++
-								post.favorited = true
-							} else {
-								post.favorite_count--
-								post.favorited = false
-							}
-						}
-				  	})
+					activityApi.util.updateQueryData('listActivity', { type: 'new_application' }, drafts => {
+						const index = drafts.findIndex((obj: any) => obj.id == data.activity.id)
+						drafts[index].application = data
+					})
 				)
-			}
+			},
+			invalidatesTags: (activity) => [{ type: 'Activity', id: activity?.id }],
 		}),
+
 		listTags: build.query<any, any>({
 			query: ({ ...params }) => {
 				const urlParams = new URLSearchParams(params)
@@ -128,12 +174,17 @@ export const activityApi = createApi({
 // Export hooks for usage in functional components
 export const {
 	// name combined from 'use<endpoint name><endpoint type> in camelCase
-	useCreateRejectionActivityMutation,
-	useUpdateRejectionActivityMutation,
+	useCreateRejectionMutation,
+	useUpdateRejectionMutation,
+
+	useCreateApplicationMutation,
+	useUpdateApplicationMutation,
+
 	useDeleteActivityMutation,
 	useListActivityQuery,
 	useRetrieveActivityQuery,
 	useFavoriteActivityMutation,
+
 	useListTagsQuery,
 } = activityApi
 

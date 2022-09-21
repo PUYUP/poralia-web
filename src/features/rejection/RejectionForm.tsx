@@ -19,9 +19,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { useRouter } from "next/router";
-import { useCreateRejectionActivityMutation, useUpdateRejectionActivityMutation } from "../activity/Api";
+import { useCreateRejectionMutation, useUpdateRejectionMutation, useUpdateApplicationMutation } from "../activity/Api";
 import { useEffect, useState } from 'react'
-import { useUpdateApplicationMutation } from "../application/Api";
 
 const RejectionForm = (props: {
 	id: number,
@@ -30,8 +29,8 @@ const RejectionForm = (props: {
 	activity: any,
 }) => {
 	const router = useRouter()
-	const [createRejection, createResult] = useCreateRejectionActivityMutation()
-	const [updateRejection, updateResult] = useUpdateRejectionActivityMutation()
+	const [createRejection, createResult] = useCreateRejectionMutation()
+	const [updateRejection, updateResult] = useUpdateRejectionMutation()
 	const [updateApplication, updateApplicationResult] = useUpdateApplicationMutation()
 
 	const [privacyChecked, setPrivacyChecked] = useState(false)

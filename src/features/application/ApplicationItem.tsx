@@ -24,7 +24,7 @@ import Chip from '@mui/material/Chip';
 import { useSession } from "next-auth/react";
 import { yellow } from '@mui/material/colors';
 import Link from 'next/link';
-import { useDeleteApplicationMutation } from './Api';
+import { useDeleteActivityMutation } from '../activity/Api';
 import Swal from 'sweetalert2'
 
 
@@ -32,7 +32,7 @@ const ApplicationItem = (props: any) => {
 	const { data } = useSession()
 	const { author, application } = props
 	const meta = application.meta
-	const [deleteApplication, deletedResult] = useDeleteApplicationMutation()
+	const [deleteApplication, deletedResult] = useDeleteActivityMutation()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

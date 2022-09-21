@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { userApi } from '../features/user/Api';
 import { activityApi } from '../features/activity/Api';
-import { applicationApi } from "../features/application/Api";
 import { userSlice } from "../features/user/Slice";
 import { rejectionSlice } from "../features/rejection/Slice";
 
@@ -12,14 +11,12 @@ export const store = configureStore({
 		[userSlice.name]: userSlice.reducer,
 		[userApi.reducerPath]: userApi.reducer,
 		[activityApi.reducerPath]: activityApi.reducer,
-		[applicationApi.reducerPath]: applicationApi.reducer,
 	},
 	middleware: (getDefaultMiddleware: any) => {
 		return getDefaultMiddleware()
 			.concat(
 				userApi.middleware,
 				activityApi.middleware,
-				applicationApi.middleware,
 			);
 	}
 })

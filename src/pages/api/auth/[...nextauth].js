@@ -28,7 +28,7 @@ export const authOptions = (req) => ({
 			session.user.auth = user
 
 			// acquired JWT token
-			if (session.user?.token === undefined) {
+			if (!session.user?.token) {
 				try {
 					const jwt = await axios.post(JWT_BASE_URL, {
 						username: email,

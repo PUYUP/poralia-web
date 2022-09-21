@@ -9,12 +9,12 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import ApplicationItem from './ApplicationItem'
-import { useListApplicationQuery } from './Api'
+import { useListActivityQuery } from '../activity/Api'
 import RejectionForm from '../rejection/RejectionForm'
 
 
 const ApplicationList = (props: any, ref: any) => {
-	const { data: data, isLoading } = useListApplicationQuery({ type: 'new_application' })
+	const { data: data, isLoading } = useListActivityQuery({ type: 'new_application' })
 	const [openRejected, setOpenRejected] = React.useState(false);
 	const [application, setApplication] = React.useState<any>({})
 
@@ -27,7 +27,6 @@ const ApplicationList = (props: any, ref: any) => {
 		setOpenRejected(false);
 		setApplication({})
 	};
-
 
 	return (
 		<>
