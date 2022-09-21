@@ -10,6 +10,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ImageIcon from '@mui/icons-material/Image';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import LockIcon from '@mui/icons-material/Lock';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
@@ -158,7 +159,15 @@ const RejectionItem = (props: any) => {
 						<Chip size="small" color="success" label={`My rejection`} sx={{ marginLeft: 1 }} />
 					)*/}
 
-					<Typography marginTop={1}>{rejection.title.rendered}</Typography>
+					{ // @ts-ignore
+					(data?.user?.id == author.id && meta?.privacy == 'private') && (
+						<Chip size="small" label={"Private"} variant="outlined" color={'primary'} icon={<LockIcon />} />
+					)}
+
+					<Typography marginTop={1}>
+						
+						{rejection.title.rendered}
+					</Typography>
 
 					<Table 
 						sx={{

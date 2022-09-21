@@ -9,15 +9,18 @@ import Typography from "@mui/material/Typography"
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import WorkIcon from '@mui/icons-material/Work';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-import PersonOffIcon from '@mui/icons-material/PersonOff';
+import Checkbox from '@mui/material/Checkbox';
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
+import Alert from '@mui/material/Alert';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { useRouter } from "next/router";
 import { useCreateRejectionActivityMutation, useUpdateRejectionActivityMutation } from "../activity/Api";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const RejectionForm = (props: {
 	id: number,
@@ -28,13 +31,24 @@ const RejectionForm = (props: {
 	const router = useRouter()
 	const [createRejection, createResult] = useCreateRejectionActivityMutation()
 	const [updateRejection, updateResult] = useUpdateRejectionActivityMutation()
+	const [privacyChecked, setPrivacyChecked] = useState(false)
 	const { rejection }: any = props.activity
+
+	const handlePrivacyChange = (event: any) => {
+		setPrivacyChecked(event.target.checked)
+	}
 
 	useEffect(() => {
 		if (createResult.isSuccess || updateResult.isSuccess) {
 			router.back()
 		}
 	}, [createResult, updateResult])
+
+	useEffect(() => {
+		if (rejection) {
+			setPrivacyChecked(rejection.meta.privacy == 'private' ? true : false)
+		}
+	}, [rejection])
 
 	return (
 		<>
@@ -68,6 +82,7 @@ const RejectionForm = (props: {
 						lastProcess: rejection ? rejection.meta.last_process : '',
 						method: rejection ? rejection.meta.method : '',
 						story: rejection ? rejection.content.plain : '',
+						privacy: rejection ? rejection.meta.privacy : 'private',
 					}}
 					validationSchema={Yup.object({
 						applyingIn: Yup.string()
@@ -80,6 +95,8 @@ const RejectionForm = (props: {
 						lastProcess: Yup.string(),
 						method: Yup.string(),
 						story: Yup.string(),
+						privacy: Yup.string()
+							.required(),
 					})}
 					onSubmit={async (values, { setSubmitting}) => {
 						const postData = {
@@ -93,6 +110,7 @@ const RejectionForm = (props: {
 								// rejection_count: values.rejectionCount,
 								last_process: values.lastProcess,
 								method: values.method,
+								privacy: privacyChecked ? 'private' : 'public',
 							}
 						}
 
@@ -335,6 +353,31 @@ const RejectionForm = (props: {
 									error={touched.story && Boolean(errors.story)}
 									helperText={touched.story && errors.story?.toLocaleString()}
 								/>
+							</FormControl>
+
+							<FormControl 
+								fullWidth 
+								sx={{ 
+									marginBottom: {
+										xs: 3,
+										sm: 4,
+									} 
+								}}
+							>
+								<FormGroup>
+									<Typography>{"Privacy type for this rejection"}</Typography>
+									<FormControlLabel 
+										control={<Checkbox checked={privacyChecked} />} 
+										label="Private" 
+										onChange={handlePrivacyChange}
+									/>
+
+									{privacyChecked ? (
+										<Alert severity="warning">{"Only visible by you and your connections"}</Alert>
+									) : (
+										<Alert severity="info">{"Visible to everyones"}</Alert>
+									)}
+								</FormGroup>
 							</FormControl>
 
 							<Box>
