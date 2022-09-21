@@ -20,6 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import WorkOffIcon from '@mui/icons-material/WorkOff';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
+import Chip from '@mui/material/Chip';
 import { useSession } from "next-auth/react";
 import { yellow } from '@mui/material/colors';
 import Link from 'next/link';
@@ -130,6 +131,10 @@ const ApplicationItem = (props: any) => {
 						</ListItemText>
 					</ListItem>
 				</Box>
+				
+				{meta.status == 'rejected' && (
+					<Chip size="small" label={"Rejected"} variant="outlined" color={'primary'} icon={<WorkOffIcon />} />
+				)}
 
 				<Box>
 					<Table 
@@ -172,12 +177,14 @@ const ApplicationItem = (props: any) => {
 							</TableRow>
 						</TableBody>
 					</Table>
-
-					<Box marginTop={3}>
-						<Typography fontSize={12} marginBottom={1}>{"What happen with this application?"}</Typography>
-						<Button startIcon={<WorkOffIcon />} size="small" sx={{ borderRadius: 5 }} onClick={onRejected}>{"Rejected"}</Button>
-						<Button startIcon={<CheckIcon />} size="small" sx={{ marginLeft: 2, borderRadius: 5 }}>{"Accepted"}</Button>
-					</Box>
+					
+					{meta.status == 'ongoing' && (
+						<Box marginTop={3}>
+							<Typography fontSize={12} marginBottom={1}>{"What happen with this application?"}</Typography>
+							<Button startIcon={<WorkOffIcon />} size="small" sx={{ borderRadius: 5 }} onClick={onRejected}>{"Rejected"}</Button>
+							<Button startIcon={<CheckIcon />} size="small" sx={{ marginLeft: 2, borderRadius: 5 }}>{"Accepted"}</Button>
+						</Box>
+					)}
 				</Box>
 			</CardContent>
 		</Card>

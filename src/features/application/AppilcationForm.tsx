@@ -78,6 +78,7 @@ const ApplicationForm = (props: {
 								applying_in: values.applyingIn,
 								applied_at: values.appliedAt,
 								privacy: 'private',
+								status: 'ongoing',
 							}
 						}
 
