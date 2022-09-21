@@ -68,11 +68,11 @@ const Rejection = (props: any) => {
 			</Head>
 		
 			<DashboardLayout>
-				<Box marginBottom={5}>
-					<Typography marginBottom={2}>{"Have job rejections experience? Feel free to share, let other recruiter got you!"}</Typography>
-							
+				<Box marginBottom={5}>	
 					<Grid container alignItems={'center'}>
 						<Grid item xs={7}>
+							<Typography marginBottom={2}>{"Have job rejections experience? Feel free to share, let other recruiter got you!"}</Typography>
+
 							<Link href="/share">
 								<Button variant="contained" sx={{ borderRadius: 10, width: 190 }} startIcon={<RateReviewOutlinedIcon />}>
 									{"Share My Rejection"}
@@ -80,6 +80,8 @@ const Rejection = (props: any) => {
 							</Link>
 
 							<Divider textAlign="left" sx={{ marginTop: 2, marginBottom: 2 }}>{"or"}</Divider>
+							
+							<Typography marginBottom={2}>{"Never forget where your applied. Save it and tracking."}</Typography>
 
 							<Link href="/share/application">
 								<Button variant="outlined" sx={{ borderRadius: 10, width: 190 }} startIcon={<WorkHistoryIcon />}>

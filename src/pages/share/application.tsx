@@ -32,7 +32,7 @@ const Application = (props: any) => {
 					<Typography variant="h5" marginBottom={.5}>{"Save Job Applications"}</Typography>
 					<Divider sx={{ marginBottom: 2 }} />
 					<Alert severity="info" sx={{ marginBottom: 5 }}>
-						{"This job application can only view by yourself (private)."}
+						{"Saved job application only viewed by yourself (private)."}
 					</Alert>
 					<ApplicationForm id={id} action={action} activity={!isLoading && isSuccess ? data?.[0] : {}} isLoading={isLoading} />
 				</Box>
