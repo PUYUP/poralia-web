@@ -16,6 +16,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import BadgeIcon from '@mui/icons-material/Badge';
 
 const BasicMenu = (props: {
 	session: any
@@ -66,6 +67,14 @@ const BasicMenu = (props: {
 							<VolunteerActivismIcon fontSize="small" />
 						</ListItemIcon>
 						<ListItemText>{"Jobs Offer"}</ListItemText>
+					</MenuItem>
+				</Link>
+				<Link href={'/account/application'}>
+					<MenuItem>
+						<ListItemIcon>
+							<BadgeIcon fontSize="small" />
+						</ListItemIcon>
+						<ListItemText>{"Current Job"}</ListItemText>
 					</MenuItem>
 				</Link>
 				<Link href={'/account'}>
