@@ -3,10 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface ApplicationState {
 	tagsFiltered: any
+	queryFilter: any
 }
 
 const initialState: ApplicationState = {
-	tagsFiltered: []
+	tagsFiltered: [],
+	queryFilter: {}
 }
 
 export const applicationSlice = createSlice({
@@ -26,10 +28,16 @@ export const applicationSlice = createSlice({
 		removeTagFiltered: (state, action: PayloadAction<any>) => {
 			state.tagsFiltered = state.tagsFiltered.filter((obj: any) => obj.id !== action.payload.id)
 		},
+		setQueryFilter: (state, action: PayloadAction<any>) => {
+			state.queryFilter = {
+				...state.queryFilter,
+				...action.payload,
+			}
+		}
 	},
 })
   
 // Action creators are generated for each case reducer function
-export const { setTagFiltered, removeTagFiltered } = applicationSlice.actions
+export const { setTagFiltered, removeTagFiltered, setQueryFilter } = applicationSlice.actions
 
 export default applicationSlice.reducer

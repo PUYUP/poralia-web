@@ -34,8 +34,7 @@ const RejectionForm = (props: {
 	const [updateApplication, updateApplicationResult] = useUpdateApplicationMutation()
 
 	const [privacyChecked, setPrivacyChecked] = useState(false)
-	const { rejection, application }: any = props.activity
-	const data = rejection || application
+	const { secondary_item }: any = props.activity
 
 	const handlePrivacyChange = (event: any) => {
 		setPrivacyChecked(event.target.checked)
@@ -48,10 +47,10 @@ const RejectionForm = (props: {
 	}, [createResult, updateResult])
 
 	useEffect(() => {
-		if (data) {
-			setPrivacyChecked(data.meta.privacy == 'private' ? true : false)
+		if (secondary_item) {
+			setPrivacyChecked(secondary_item.meta.privacy == 'private' ? true : false)
 		}
-	}, [data])
+	}, [secondary_item])
 
 	return (
 		<>
@@ -77,15 +76,15 @@ const RejectionForm = (props: {
 				<Formik
 					enableReinitialize={true}
 					initialValues={{
-						applyingIn: data ? data.meta.applying_in : '',
-						jobTitle: data ? data.title.rendered : '',
-						appliedAt: data ? data.meta.applied_at : '',
-						rejectedAt: data ? data.meta.rejected_at : '',
-						// rejectionCount: data ? data.meta.rejection_count : '',
-						lastProcess: data ? data.meta.last_process : '',
-						method: data ? data.meta.method : '',
-						story: data ? data.content.plain : '',
-						privacy: data ? data.meta.privacy : 'private',
+						applyingIn: secondary_item ? secondary_item.meta.applying_in : '',
+						jobTitle: secondary_item ? secondary_item.title.rendered : '',
+						appliedAt: secondary_item ? secondary_item.meta.applied_at : '',
+						rejectedAt: secondary_item ? secondary_item.meta.rejected_at : '',
+						// rejectionCount: secondary_item ? secondary_item.meta.rejection_count : '',
+						lastProcess: secondary_item ? secondary_item.meta.last_process : '',
+						method: secondary_item ? secondary_item.meta.method : '',
+						story: secondary_item ? secondary_item.content.plain : '',
+						privacy: secondary_item ? secondary_item.meta.privacy : 'private',
 					}}
 					validationSchema={Yup.object({
 						applyingIn: Yup.string()
@@ -118,14 +117,14 @@ const RejectionForm = (props: {
 						}
 
 						if (props.id && props.action === 'edit') {
-							await updateRejection({id: data?.id, ...postData})
+							await updateRejection({id: secondary_item?.id, ...postData})
 						} else {
 							await createRejection({...postData})
 
 							// Update application status
-							if (application) {
+							if (secondary_item) {
 								await updateApplication({
-									id: application.id, 
+									id: secondary_item.id, 
 									meta: {
 										status: 'rejected'
 									}

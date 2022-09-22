@@ -26,7 +26,7 @@ const ApplicationForm = (props: {
 	const router = useRouter()
 	const [createApplication, createResult] = useCreateApplicationMutation()
 	const [updateApplication, updateResult] = useUpdateApplicationMutation()
-	const { application }: any = props.activity
+	const { secondary_item }: any = props.activity
 
 	useEffect(() => {
 		if (createResult.isSuccess || updateResult.isSuccess) {
@@ -58,9 +58,9 @@ const ApplicationForm = (props: {
 				<Formik
 					enableReinitialize={true}
 					initialValues={{
-						applyingIn: application ? application.meta.applying_in : '',
-						jobTitle: application ? application.title.rendered : '',
-						appliedAt: application ? application.meta.applied_at : '',
+						applyingIn: secondary_item ? secondary_item.meta.applying_in : '',
+						jobTitle: secondary_item ? secondary_item.title.rendered : '',
+						appliedAt: secondary_item ? secondary_item.meta.applied_at : '',
 					}}
 					validationSchema={Yup.object({
 						applyingIn: Yup.string()
@@ -78,12 +78,12 @@ const ApplicationForm = (props: {
 								applying_in: values.applyingIn,
 								applied_at: values.appliedAt,
 								privacy: 'private',
-								status: props.id ? application.meta?.status : 'ongoing',
+								status: props.id ? secondary_item.meta?.status : 'ongoing',
 							}
 						}
 
 						if (props.id && props.action === 'edit') {
-							await updateApplication({id: application?.id, ...postData})
+							await updateApplication({id: secondary_item?.id, ...postData})
 						} else {
 							await createApplication({...postData})
 						}

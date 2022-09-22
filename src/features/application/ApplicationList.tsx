@@ -11,10 +11,14 @@ import Button from '@mui/material/Button'
 import ApplicationItem from './ApplicationItem'
 import { useListActivityQuery } from '../activity/Api'
 import RejectionForm from '../rejection/RejectionForm'
+import { useAppDispatch } from '../../lib/hooks'
+import { setQueryFilter } from './Slice'
 
 
 const ApplicationList = (props: any, ref: any) => {
-	const { data: data, isLoading } = useListActivityQuery({ type: 'new_application' })
+	const dispatch = useAppDispatch()
+	const [filter, setFilter] = React.useState<any>({ type: 'new_application' })
+	const { data: data, isLoading, isSuccess } = useListActivityQuery(filter)
 	const [openRejected, setOpenRejected] = React.useState(false);
 	const [application, setApplication] = React.useState<any>({})
 
@@ -27,6 +31,11 @@ const ApplicationList = (props: any, ref: any) => {
 		setOpenRejected(false);
 		setApplication({})
 	};
+
+	React.useEffect(() => {
+		// i don't know what i wrote about this
+		dispatch(setQueryFilter(filter))
+	}, [isSuccess])
 
 	return (
 		<>

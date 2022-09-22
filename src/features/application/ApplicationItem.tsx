@@ -30,8 +30,8 @@ import Swal from 'sweetalert2'
 
 const ApplicationItem = (props: any) => {
 	const { data } = useSession()
-	const { author, application } = props
-	const meta = application.meta
+	const { author, secondary_item } = props
+	const meta = secondary_item.meta
 	const [deleteApplication, deletedResult] = useDeleteActivityMutation()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   	const open = Boolean(anchorEl);
@@ -124,10 +124,10 @@ const ApplicationItem = (props: any) => {
 						)}
 					>
 						<ListItemText 
-							secondary={moment(application.date_gmt).format('lll')} 
+							secondary={moment(secondary_item.date_gmt).format('lll')} 
 							sx={{ cursor: 'pointer' }}
 						>
-							<Typography fontWeight={700}>{application.title.rendered}</Typography>
+							<Typography fontWeight={700}>{secondary_item.title.rendered}</Typography>
 						</ListItemText>
 					</ListItem>
 				</Box>

@@ -36,8 +36,8 @@ import Swal from 'sweetalert2'
 const RejectionItem = (props: any) => {
 	const router = useRouter()
 	const { data } = useSession()
-	const { author, rejection } = props
-	const meta = rejection.meta
+	const { author, secondary_item } = props
+	const meta = secondary_item.meta
 	const avatar = author.simple_local_avatar ? author.simple_local_avatar?.[96] : props?.user_avatar?.['thumb']
 	const [favoriteActivity, favoritedResult] = useFavoriteActivityMutation()
 	const [deleteActivity, deletedResult] = useDeleteActivityMutation()
@@ -144,7 +144,7 @@ const RejectionItem = (props: any) => {
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText 
-							secondary={moment(rejection.date_gmt).format('lll')} 
+							secondary={moment(secondary_item.date_gmt).format('lll')} 
 							onClick={() => goToUser(author.username)}
 							sx={{ cursor: 'pointer' }}
 						>
@@ -166,7 +166,7 @@ const RejectionItem = (props: any) => {
 
 					<Typography marginTop={1}>
 						
-						{rejection.title.rendered}
+						{secondary_item.title.rendered}
 					</Typography>
 
 					<Table 
@@ -267,7 +267,7 @@ const RejectionItem = (props: any) => {
 									<Typography 
 										fontSize={14} 
 										component='div' 
-										dangerouslySetInnerHTML={{__html: rejection.content.rendered ? rejection.content.rendered : '-'}}
+										dangerouslySetInnerHTML={{__html: secondary_item.content.rendered ? secondary_item.content.rendered : '-'}}
 										sx={{
 											[`& p + p`]: {
 												marginTop: 1
@@ -277,7 +277,7 @@ const RejectionItem = (props: any) => {
 								</TableCell>
 							</TableRow>
 
-							{rejection.skills && (
+							{secondary_item.skills && (
 								<TableRow>
 									<TableCell width={140}>
 										<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -294,7 +294,7 @@ const RejectionItem = (props: any) => {
 												gap: 1
 											}}
 										>
-											{rejection.mySkills.map((item: any, index: number) => {
+											{secondary_item.mySkills.map((item: any, index: number) => {
 												return (
 													<Box key={index}>
 														<Chip label={item} size="small" />

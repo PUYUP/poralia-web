@@ -3,9 +3,12 @@ import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import RejectionItem from './RejectionItem'
 import { useListActivityQuery } from '../activity/Api'
+import { setQueryFilter } from './Slice'
+import { useAppDispatch } from '../../lib/hooks'
 
 
 const RejectionList = (props: any, ref: any) => {
+	const dispatch = useAppDispatch()
 	const [filter, setFilter] = React.useState<any>({ type: 'new_rejection' })
 	const { data: data, isLoading, isSuccess, refetch, isFetching } = useListActivityQuery(filter)
 
@@ -33,6 +36,9 @@ const RejectionList = (props: any, ref: any) => {
 
 	React.useEffect(() => {
 		props.isFetching(isFetching)
+
+		// i don't know what i wrote about this
+		dispatch(setQueryFilter(filter))
 	}, [isFetching])
 
 	return (

@@ -23,7 +23,9 @@ export const activityApi = createApi({
 	endpoints: (build) => ({
 		listActivity: build.query<any, any>({
 			query: ({ ...params }) => {
+				params = Object.fromEntries(Object.entries(params).filter(([_, v]) => v));
 				const urlParams = new URLSearchParams(params)
+
 				return {
 					url: `/buddypress/v1/activity?_embed&${urlParams}`,
 					method: 'GET',
@@ -78,21 +80,24 @@ export const activityApi = createApi({
 		 * POST TYPE START HERE
 		 */
 		// REJECTION
-		createRejectionActivity: build.mutation<any, any>({
+		createRejection: build.mutation<any, any>({
 			query: (body) => ({
 				url: `/wp/v2/rejections`,
 				method: 'POST',
 				body: body,
 			}),
-			async onQueryStarted({...newObj}, { dispatch, queryFulfilled }) {
+			async onQueryStarted({...newObj}, { dispatch, queryFulfilled, getState }) {
 				const { data } = await queryFulfilled
 				const { activity, author } = data
+
+				// @ts-ignore
+				const queryFilter = getState().rejection.queryFilter
 				
 				const patchResult = dispatch(
-					activityApi.util.updateQueryData('listActivity', { type: 'new_rejection' }, drafts => {
+					activityApi.util.updateQueryData('listActivity', queryFilter, drafts => {
 						drafts.unshift({ 
 							...activity, 
-							rejection: data,
+							secondary_item: data,
 							author: author,
 						})
 					})
@@ -100,18 +105,21 @@ export const activityApi = createApi({
 			},
 			invalidatesTags: [{ type: 'Activity', id: 'LIST' }],
 		}),
-		updateRejectionActivity: build.mutation<any, any>({
+		updateRejection: build.mutation<any, any>({
 			query: ({id, ...body}) => ({
 				url: `/wp/v2/rejections/${id}`,
 				method: 'PUT',
 				body: body,
 			}),
-			async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled }) {
+			async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled, getState }) {
+				// @ts-ignore
+				const queryFilter = getState().rejection.queryFilter
 				const { data } = await queryFulfilled
+
 				const patchResult = dispatch(
-					activityApi.util.updateQueryData('listActivity', { type: 'new_rejection' }, drafts => {
+					activityApi.util.updateQueryData('listActivity', queryFilter, drafts => {
 						const index = drafts.findIndex((obj: any) => obj.id == data.activity.id)
-						drafts[index].rejection = data
+						drafts[index].secondary_item = data
 					})
 				)
 			},
@@ -125,15 +133,18 @@ export const activityApi = createApi({
 				method: 'POST',
 				body: body,
 			}),
-			async onQueryStarted({...newObj}, { dispatch, queryFulfilled }) {
+			async onQueryStarted({...newObj}, { dispatch, queryFulfilled, getState }) {
 				const { data } = await queryFulfilled
 				const { activity, author } = data
+
+				// @ts-ignore
+				const queryFilter = getState().application.queryFilter
 				
 				const patchResult = dispatch(
-					activityApi.util.updateQueryData('listActivity', { type: 'new_application' }, drafts => {
+					activityApi.util.updateQueryData('listActivity', queryFilter, drafts => {
 						drafts.unshift({ 
 							...activity, 
-							application: data,
+							secondary_item: data,
 							author: author,
 						})
 					})
@@ -147,12 +158,56 @@ export const activityApi = createApi({
 				method: 'PUT',
 				body: body,
 			}),
+			async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled, getState }) {
+				// @ts-ignore
+				const queryFilter = getState().application.queryFilter
+				const { data } = await queryFulfilled
+
+				const patchResult = dispatch(
+					activityApi.util.updateQueryData('listActivity', queryFilter, drafts => {
+						const index = drafts.findIndex((obj: any) => obj.id == data.activity.id)
+						drafts[index].secondary_item = data
+					})
+				)
+			},
+			invalidatesTags: (activity) => [{ type: 'Activity', id: activity?.id }],
+		}),
+
+		// CURRENT JOB
+		createCurrentJob: build.mutation<any, any>({
+			query: (body) => ({
+				url: `/wp/v2/current-jobs`,
+				method: 'POST',
+				body: body,
+			}),
+			async onQueryStarted({...newObj}, { dispatch, queryFulfilled }) {
+				const { data } = await queryFulfilled
+				const { activity, author } = data
+				
+				const patchResult = dispatch(
+					activityApi.util.updateQueryData('listActivity', { type: 'new_current_job' }, drafts => {
+						drafts.unshift({ 
+							...activity, 
+							current_job: data,
+							author: author,
+						})
+					})
+				)
+			},
+			invalidatesTags: [{ type: 'Activity', id: 'LIST' }],
+		}),
+		updateCurrentJob: build.mutation<any, any>({
+			query: ({id, ...body}) => ({
+				url: `/wp/v2/current-jobs/${id}`,
+				method: 'PUT',
+				body: body,
+			}),
 			async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled }) {
 				const { data } = await queryFulfilled
 				const patchResult = dispatch(
-					activityApi.util.updateQueryData('listActivity', { type: 'new_application' }, drafts => {
+					activityApi.util.updateQueryData('listActivity', { type: 'new_current_job' }, drafts => {
 						const index = drafts.findIndex((obj: any) => obj.id == data.activity.id)
-						drafts[index].application = data
+						drafts[index].current_job = data
 					})
 				)
 			},
