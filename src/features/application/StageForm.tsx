@@ -24,7 +24,7 @@ const StageForm = (props: any) => {
 		setOpen(true);
 	}
 
-	const onCofirmDelete = async () => {
+	const onPerformDelete = async () => {
 		const stageIndex = props?.stage_index
 		const stages = [...props.secondary_item.meta.stages]
 
@@ -39,6 +39,10 @@ const StageForm = (props: any) => {
 		}
 
 		await useUpdateApplication(payload)
+	}
+
+	const onCofirmDelete = async () => {
+		onPerformDelete()
 	}
 
 	const handleClose = () => {
@@ -202,7 +206,7 @@ const StageForm = (props: any) => {
 
 				<DialogActions>
 					<Button onClick={handleClose}>{"Cancel"}</Button>
-					<Button onClick={async () => onCofirmDelete()} color="error">
+					<Button onClick={onCofirmDelete} color="error">
 						{"Yes, delete"}
 					</Button>
 				</DialogActions>
