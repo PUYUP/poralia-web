@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as Yup from "yup"
+import Swal from "sweetalert2"
 import { Form, Formik } from "formik"
 import FormControl from "@mui/material/FormControl"
 import TextField from "@mui/material/TextField"
@@ -8,21 +9,11 @@ import InputAdornment from '@mui/material/InputAdornment'
 import EventNoteIcon from '@mui/icons-material/EventNote'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useUpdateApplicationMutation } from "../activity/Api"
 
 const StageForm = (props: any) => {
 	const [useUpdateApplication, status] = useUpdateApplicationMutation()
 	const [selectedStage, setSelectedStage] = React.useState<any>()
-	const [open, setOpen] = React.useState(false);
-
-	const onDelete = async () => {
-		setOpen(true);
-	}
 
 	const onPerformDelete = async () => {
 		const stageIndex = props?.stage_index
@@ -41,12 +32,17 @@ const StageForm = (props: any) => {
 		await useUpdateApplication(payload)
 	}
 
-	const onCofirmDelete = async () => {
-		onPerformDelete()
-	}
-
-	const handleClose = () => {
-		setOpen(false);
+	const onDelete = () => {
+		Swal.fire({
+			title: 'Are you sure want delete this item?',
+			showDenyButton: false,
+			showCancelButton: true,
+			confirmButtonText: 'Sure, delete'
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				onPerformDelete()
+			}
+		})
 	}
 
 	React.useEffect(() => {
@@ -187,30 +183,6 @@ const StageForm = (props: any) => {
 					</Form>
 				)}
 			</Formik>
-
-			<Dialog
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="alert-dialog-title"
-				aria-describedby="alert-dialog-description"
-			>
-				<DialogTitle id="alert-dialog-title">
-					{"Delete confirmation"}
-				</DialogTitle>
-
-				<DialogContent>
-					<DialogContentText id="alert-dialog-description">
-						{"Are you sure delete this? Item will permanently deleted from our database."}
-					</DialogContentText>
-				</DialogContent>
-
-				<DialogActions>
-					<Button onClick={handleClose}>{"Cancel"}</Button>
-					<Button onClick={onCofirmDelete} color="error">
-						{"Yes, delete"}
-					</Button>
-				</DialogActions>
-			</Dialog>
 		</>
 	)
 }
