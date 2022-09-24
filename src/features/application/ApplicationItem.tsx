@@ -195,44 +195,49 @@ const ApplicationItem = (props: any) => {
 								</TableCell>
 
 								<TableCell>
-									<Timeline 
-										sx={{
-											padding: 0,
-											margin: 0,
-											[`& .${timelineOppositeContentClasses.root}`]: {
-												flex: 0.2,
-											},
-										}}
-									>
-										{meta.stages?.map((item: any, index: number) => {
-											return (
-												<TimelineItem 
-													key={index}
-													sx={{ 
-														minHeight: '35px'
-													}}
-												>
-													<TimelineOppositeContent color="text.secondary" sx={{ fontSize: 13, paddingTop: '1px' }}>
-														{moment(item.date).format('L')}
-													</TimelineOppositeContent>
-													<TimelineSeparator>
-														<TimelineDot sx={{ margin: '6.5px 0', borderWidth: '1px', padding: '3px' }} />
-														<TimelineConnector />
-													</TimelineSeparator>
-													<TimelineContent sx={{ fontSize: 13, paddingTop: '1px' }}>
-														<Box display={'flex'}>
-															<Box>{item.summary}</Box>
-															<Box marginLeft={'auto'} width={20}>
-																<IconButton size='small' onClick={() => onEditStage(index, item)}>
-																	<EditIcon sx={{ fontSize: 15 }} />
-																</IconButton>
+									{meta?.stages && meta?.stages.length > 0 ? (
+										<Timeline 
+											sx={{
+												padding: 0,
+												margin: 0,
+												[`& .${timelineOppositeContentClasses.root}`]: {
+													flex: 0.2,
+												},
+											}}
+										>
+											{meta.stages?.map((item: any, index: number) => {
+												return (
+													<TimelineItem 
+														key={index}
+														sx={{ 
+															minHeight: '35px'
+														}}
+													>
+														<TimelineOppositeContent color="text.secondary" sx={{ fontSize: 13, paddingTop: '1px' }}>
+															{moment(item.date).format('L')}
+														</TimelineOppositeContent>
+														<TimelineSeparator>
+															<TimelineDot sx={{ margin: '6.5px 0', borderWidth: '1px', padding: '3px' }} />
+															<TimelineConnector />
+														</TimelineSeparator>
+														<TimelineContent sx={{ fontSize: 13, paddingTop: '1px' }}>
+															<Box display={'flex'}>
+																<Box>{item.summary}</Box>
+																<Box marginLeft={'auto'} width={20}>
+																	<IconButton size='small' onClick={() => onEditStage(index, item)}>
+																		<EditIcon sx={{ fontSize: 15 }} />
+																	</IconButton>
+																</Box>
 															</Box>
-														</Box>
-													</TimelineContent>
-												</TimelineItem>
-											)
-										})}
-									</Timeline>
+														</TimelineContent>
+													</TimelineItem>
+												)
+											})}
+										</Timeline>
+									) : (
+										<>-</>
+									)}
+									
 								</TableCell>
 							</TableRow>
 						</TableBody>
