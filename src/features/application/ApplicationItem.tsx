@@ -37,6 +37,7 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineOppositeContent, {
 	timelineOppositeContentClasses,
   } from '@mui/lab/TimelineOppositeContent';
+import { Divider } from '@mui/material';
 
 
 const ApplicationItem = (props: any) => {
@@ -186,6 +187,15 @@ const ApplicationItem = (props: any) => {
 
 								<TableCell>{meta.applied_at ? moment(meta.applied_at).format('LL') : '-'}</TableCell>
 							</TableRow>
+
+							{meta?.stages && meta?.stages.length > 0 && (
+								<TableRow>
+									<TableCell colSpan={2}>
+										<Divider sx={{ marginTop: 1, marginBottom: 1, borderStyle: 'dashed' }}></Divider>
+									</TableCell>
+								</TableRow>
+							)}
+
 
 							<TableRow sx={{ verticalAlign: 'top' }}>
 								<TableCell width={140}>
