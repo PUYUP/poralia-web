@@ -355,6 +355,7 @@ const RejectionForm = (props: {
 							>
 								<TextField
 									multiline
+									minRows={3}
 									maxRows={300}
 									name="story"
 									label={"Rejection Story"}

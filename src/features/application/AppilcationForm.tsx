@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography"
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import WorkIcon from '@mui/icons-material/Work';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
@@ -64,9 +63,9 @@ const ApplicationForm = (props: {
 					}}
 					validationSchema={Yup.object({
 						applyingIn: Yup.string()
-							.required('Required field'),
+							.required(),
 						jobTitle: Yup.string()
-							.required('Required field'),
+							.required(),
 						appliedAt: Yup.date(),
 					})}
 					onSubmit={async (values, { setSubmitting}) => {

@@ -2,9 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
@@ -13,24 +11,42 @@ import { useListActivityQuery } from '../activity/Api'
 import RejectionForm from '../rejection/RejectionForm'
 import { useAppDispatch } from '../../lib/hooks'
 import { setQueryFilter } from './Slice'
+import StageForm from './StageForm'
+import { connect } from 'react-redux'
 
 
 const ApplicationList = (props: any, ref: any) => {
 	const dispatch = useAppDispatch()
 	const [filter, setFilter] = React.useState<any>({ type: 'new_application' })
 	const { data: data, isLoading, isSuccess } = useListActivityQuery(filter)
-	const [openRejected, setOpenRejected] = React.useState(false);
+	const [openRejected, setOpenRejected] = React.useState(false)
+	const [openUpdateStage, setOpenUpdateStage] = React.useState(false)
 	const [application, setApplication] = React.useState<any>({})
 
 	const handleRejectedOpen = (data: any) => {
-		setOpenRejected(true);
+		setOpenRejected(true)
 		setApplication(data)
-	};
+	}
 	
 	const handleRejectedClose = () => {
-		setOpenRejected(false);
+		setOpenRejected(false)
 		setApplication({})
-	};
+	}
+
+	const handleUpdateStageOpen = (data: any) => {
+		setOpenUpdateStage(true)
+		setApplication(data)
+	}
+	
+	const handleUpdateStageClose = () => {
+		setOpenUpdateStage(false)
+		setApplication({})
+	}
+
+	const onUpdateStageSuccess = () => {
+		setOpenUpdateStage(false)
+		setApplication({})
+	}
 
 	React.useEffect(() => {
 		// i don't know what i wrote about this
@@ -48,7 +64,7 @@ const ApplicationList = (props: any, ref: any) => {
 
 				{data?.map((item: any, index: number) => {
 					return (
-						<ApplicationItem onRejected={handleRejectedOpen} key={index} {...item} />
+						<ApplicationItem onRejected={handleRejectedOpen} onUpdateStage={handleUpdateStageOpen} key={index} {...item} />
 					)
 				})}
 			</Box>
@@ -67,9 +83,30 @@ const ApplicationList = (props: any, ref: any) => {
 					</Box>
 				</DialogContent>
 			</Dialog>
+
+			<Dialog open={openUpdateStage} onClose={handleUpdateStageClose}>
+				<DialogTitle>
+					<Grid container>
+						<Grid item xs={7}>{"Update current stage"}</Grid>
+						<Grid item xs={5} textAlign={'right'}><Button onClick={handleUpdateStageClose}>Cancel</Button></Grid>
+					</Grid>
+				</DialogTitle>
+
+				<DialogContent>
+					<Box sx={{ paddingTop: 1 }}>
+						<StageForm onSuccess={onUpdateStageSuccess} {...application} />
+					</Box>
+				</DialogContent>
+			</Dialog>
 		</>
 		
 	)
 }
 
-export default React.forwardRef(ApplicationList)
+const applicationStateToProps = (state: any) => {
+	return {
+		application: state.application
+	}
+}
+
+export default connect(applicationStateToProps)(React.forwardRef(ApplicationList))

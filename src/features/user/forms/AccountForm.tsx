@@ -83,6 +83,7 @@ const AccountForm = (props: {
 						<FormControl fullWidth sx={{ mb: 3}}>
 							<TextField
 								multiline
+								minRows={3}
 								maxRows={150}
 								label="About me"
 								name="description"
