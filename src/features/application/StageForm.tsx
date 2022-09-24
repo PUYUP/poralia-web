@@ -202,7 +202,7 @@ const StageForm = (props: any) => {
 
 				<DialogActions>
 					<Button onClick={handleClose}>{"Cancel"}</Button>
-					<Button onClick={onCofirmDelete} color="error">
+					<Button onClick={async () => onCofirmDelete()} color="error">
 						{"Yes, delete"}
 					</Button>
 				</DialogActions>
