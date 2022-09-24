@@ -12,25 +12,8 @@ import Button from '@mui/material/Button'
 import { useUpdateApplicationMutation } from "../activity/Api"
 
 const StageForm = (props: any) => {
-	const [useUpdateApplication, status] = useUpdateApplicationMutation()
+	const [updateApplication, status] = useUpdateApplicationMutation()
 	const [selectedStage, setSelectedStage] = React.useState<any>()
-
-	const onPerformDelete = async () => {
-		const stageIndex = props?.stage_index
-		const stages = [...props.secondary_item.meta.stages]
-
-		// remove here
-		stages.splice(stageIndex, 1)
-
-		const payload = {
-			id: props.secondary_item.id,
-			meta: {
-				stages: stages
-			}
-		}
-
-		await useUpdateApplication(payload)
-	}
 
 	const onDelete = () => {
 		Swal.fire({
@@ -40,7 +23,20 @@ const StageForm = (props: any) => {
 			confirmButtonText: 'Sure, delete'
 		}).then(async (result) => {
 			if (result.isConfirmed) {
-				onPerformDelete()
+				const stageIndex = props?.stage_index
+				const stages = [...props.secondary_item.meta.stages]
+
+				// remove here
+				stages.splice(stageIndex, 1)
+
+				const payload = {
+					id: props.secondary_item.id,
+					meta: {
+						stages: stages
+					}
+				}
+
+				await updateApplication(payload)
 			}
 		})
 	}
@@ -102,7 +98,7 @@ const StageForm = (props: any) => {
 						}
 					}
 					
-					await useUpdateApplication(payload)
+					await updateApplication(payload)
 				}}
 			>
 				{({
