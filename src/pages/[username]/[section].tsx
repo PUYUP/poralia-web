@@ -9,7 +9,7 @@ import ActivityList from '../../features/activity/ActivityList'
 import { useSession } from 'next-auth/react'
 import { useRetrieveUserQuery } from '../../features/user/Api'
 import ApplicationList from '../../features/application/ApplicationList'
-import CurrentJobList from '../../features/currentJob/CurrentJobList'
+import ExperienceList from '../../features/experience/ExperienceList'
 
 const AccountSection = (props: {
 	query: any,
@@ -59,13 +59,21 @@ const AccountSection = (props: {
 					</>
 				)}
 
-				{section == 'current-job' && 
-					<CurrentJobList user={user} />
-				}
-
-				{section == 'retired' && 
-					<ActivityList query={{ type: 'new_retired', username: username }} />
-				}
+				{section == 'experience' && (
+					<>
+						{// @ts-ignore
+						user?.id == session?.user?.id &&
+							<Box marginBottom={4}>
+								<Link href="/editor/experience">
+									<Button variant="contained" sx={{ borderRadius: 10 }} startIcon={<RateReviewOutlinedIcon />}>
+										{"Add New Experience"}
+									</Button>
+								</Link>
+							</Box>
+						}
+						<ExperienceList user={user} />
+					</>
+				)}
 			</AccountLayout>
 		</>
 	)

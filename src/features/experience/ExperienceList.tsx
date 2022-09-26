@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import CurrentJobItem from './CurrentJobItem'
+import ExperienceItem from './ExperienceItem'
 import { useListActivityQuery } from '../activity/Api'
 import RejectionForm from '../rejection/RejectionForm'
 import { useAppDispatch } from '../../lib/hooks'
@@ -16,42 +16,42 @@ import { connect, useSelector } from 'react-redux'
 import { setQueryFilter } from '../activity/Slice'
 
 
-const CurrentJobList = (props: any, ref: any) => {
+const ExperienceList = (props: any, ref: any) => {
 	const dispatch = useAppDispatch()
 	const { user } = props
 	const [filter, setFilter] = React.useState<any>({ 
-		type: 'new_current_job', 
+		type: 'new_experience', 
 		username: user.username 
 	})
-	const { data: currentJobs, isLoading, isSuccess } = useListActivityQuery(filter)
+	const { data: experiences, isLoading, isSuccess } = useListActivityQuery(filter)
 
 	const [openRejected, setOpenRejected] = React.useState(false)
 	const [openUpdateAchievement, setOpenUpdateAchievement] = React.useState(false)
-	const [currentJob, setCurrentJob] = React.useState<any>({})
+	const [experience, setExperience] = React.useState<any>({})
 
 	const handleRejectedOpen = (data: any) => {
 		setOpenRejected(true)
-		setCurrentJob(data)
+		setExperience(data)
 	}
 	
 	const handleRejectedClose = () => {
 		setOpenRejected(false)
-		setCurrentJob({})
+		setExperience({})
 	}
 
 	const handleUpdateAchievementOpen = (data: any) => {
 		setOpenUpdateAchievement(true)
-		setCurrentJob(data)
+		setExperience(data)
 	}
 	
 	const handleUpdateAchievementClose = () => {
 		setOpenUpdateAchievement(false)
-		setCurrentJob({})
+		setExperience({})
 	}
 
 	const onUpdateAchievementSuccess = () => {
 		setOpenUpdateAchievement(false)
-		setCurrentJob({})
+		setExperience({})
 	}
 
 	React.useEffect(() => {
@@ -68,15 +68,15 @@ const CurrentJobList = (props: any, ref: any) => {
 					</Box>
 				) : (
 					<>
-						{currentJobs?.length <= 0 &&
+						{experiences?.length <= 0 &&
 							<Typography textAlign={'center'}>{"No data."}</Typography>
 						}
 					</>
 				)}
 
-				{currentJobs?.map((item: any, index: number) => {
+				{experiences?.map((item: any, index: number) => {
 					return (
-						<CurrentJobItem onRejected={handleRejectedOpen} onUpdateAchievement={handleUpdateAchievementOpen} key={index} {...item} />
+						<ExperienceItem onRejected={handleRejectedOpen} onUpdateAchievement={handleUpdateAchievementOpen} key={index} {...item} />
 					)
 				})}
 			</Box>
@@ -91,7 +91,7 @@ const CurrentJobList = (props: any, ref: any) => {
 
 				<DialogContent>
 					<Box sx={{ paddingTop: 1 }}>
-						<RejectionForm id={0} isLoading={false} activity={currentJob} action={'create'} />
+						<RejectionForm id={0} isLoading={false} activity={experience} action={'create'} />
 					</Box>
 				</DialogContent>
 			</Dialog>
@@ -106,7 +106,7 @@ const CurrentJobList = (props: any, ref: any) => {
 
 				<DialogContent>
 					<Box sx={{ paddingTop: 1 }}>
-						<AchievementForm onSuccess={onUpdateAchievementSuccess} {...currentJob} />
+						<AchievementForm onSuccess={onUpdateAchievementSuccess} {...experience} />
 					</Box>
 				</DialogContent>
 			</Dialog>
@@ -115,10 +115,10 @@ const CurrentJobList = (props: any, ref: any) => {
 	)
 }
 
-const currentJobStateToProps = (state: any) => {
+const experienceStateToProps = (state: any) => {
 	return {
-		currentJob: state.currentJob
+		experience: state.experience
 	}
 }
 
-export default connect(currentJobStateToProps)(React.forwardRef(CurrentJobList))
+export default connect(experienceStateToProps)(React.forwardRef(ExperienceList))

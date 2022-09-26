@@ -174,9 +174,9 @@ export const activityApi = createApi({
 		}),
 
 		// CURRENT JOB
-		createCurrentJob: build.mutation<any, any>({
+		createExperience: build.mutation<any, any>({
 			query: (body) => ({
-				url: `/wp/v2/current-jobs`,
+				url: `/wp/v2/experiences`,
 				method: 'POST',
 				body: body,
 			}),
@@ -199,9 +199,9 @@ export const activityApi = createApi({
 			},
 			invalidatesTags: [{ type: 'Activity', id: 'LIST' }],
 		}),
-		updateCurrentJob: build.mutation<any, any>({
+		updateExperience: build.mutation<any, any>({
 			query: ({id, ...body}) => ({
-				url: `/wp/v2/current-jobs/${id}`,
+				url: `/wp/v2/experiences/${id}`,
 				method: 'PUT',
 				body: body,
 			}),
@@ -241,8 +241,8 @@ export const {
 	useCreateApplicationMutation,
 	useUpdateApplicationMutation,
 	
-	useCreateCurrentJobMutation,
-	useUpdateCurrentJobMutation,
+	useCreateExperienceMutation,
+	useUpdateExperienceMutation,
 
 	useDeleteActivityMutation,
 	useListActivityQuery,

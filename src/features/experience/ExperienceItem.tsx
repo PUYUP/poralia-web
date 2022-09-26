@@ -41,11 +41,11 @@ import TimelineOppositeContent, {
 import { Divider } from '@mui/material';
 
 
-const CurrentJobItem = (props: any) => {
+const ExperienceItem = (props: any) => {
 	const { data } = useSession()
 	const { author, secondary_item } = props
 	const meta = secondary_item.meta
-	const [deleteCurrentJob, deletedResult] = useDeleteActivityMutation()
+	const [deleteExperience, deletedResult] = useDeleteActivityMutation()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -66,7 +66,7 @@ const CurrentJobItem = (props: any) => {
 		}).then(async (result) => {
 			/* Read more about isConfirmed, isDenied below */
 			if (result.isConfirmed) {
-			  	await deleteCurrentJob(id)
+			  	await deleteExperience(id)
 			}
 		})
 	}
@@ -116,7 +116,7 @@ const CurrentJobItem = (props: any) => {
 												'aria-labelledby': 'basic-button',
 											}}
 										>
-											<Link href={`/editor/current-job/?id=${props.id}&action=edit`}>
+											<Link href={`/editor/experience/?id=${props.id}&action=edit`}>
 												<MenuItem>
 													<ListItemIcon>
 														<EditIcon fontSize="small" />
@@ -182,11 +182,21 @@ const CurrentJobItem = (props: any) => {
 							<TableRow>
 								<TableCell width={140}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
-										{"Applied at"}
+										{"Started at"}
 									</Typography>
 								</TableCell>
 
-								<TableCell>{meta.applied_at ? moment(meta.applied_at).format('LL') : '-'}</TableCell>
+								<TableCell>{meta.started_at ? moment(meta.started_at).format('LL') : '-'}</TableCell>
+							</TableRow>
+
+							<TableRow>
+								<TableCell width={140}>
+									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
+										{"Finished at"}
+									</Typography>
+								</TableCell>
+
+								<TableCell>{meta.finished_at ? moment(meta.finished_at).format('LL') : 'Currently working here'}</TableCell>
 							</TableRow>
 
 							{meta?.achievements && meta?.achievements.length > 0 && (
@@ -274,4 +284,4 @@ const CurrentJobItem = (props: any) => {
 	)
 }
 
-export default CurrentJobItem
+export default ExperienceItem

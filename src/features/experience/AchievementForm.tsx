@@ -6,10 +6,10 @@ import FormControl from "@mui/material/FormControl"
 import TextField from "@mui/material/TextField"
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import { useUpdateCurrentJobMutation } from "../activity/Api"
+import { useUpdateExperienceMutation } from "../activity/Api"
 
 const AchievementForm = (props: any) => {
-	const [updateCurrentJob, status] = useUpdateCurrentJobMutation()
+	const [updateExperience, status] = useUpdateExperienceMutation()
 	const [selectedAchievement, setSelectedAchievement] = React.useState<any>()
 
 	const onDelete = () => {
@@ -33,7 +33,7 @@ const AchievementForm = (props: any) => {
 					}
 				}
 
-				await updateCurrentJob(payload)
+				await updateExperience(payload)
 			}
 		})
 	}
@@ -92,7 +92,7 @@ const AchievementForm = (props: any) => {
 						}
 					}
 					
-					await updateCurrentJob(payload)
+					await updateExperience(payload)
 				}}
 			>
 				{({

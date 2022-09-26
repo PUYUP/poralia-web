@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import ActivityList from '../activity/ActivityList';
 import { useSession } from 'next-auth/react'
 
 interface TabPanelProps {
@@ -59,12 +58,9 @@ const AccountTab = (props: {
 				section = '/rejection'
 				break;
 			case 1:
-				section = '/current-job'
+				section = '/experience'
 				break;
 			case 2:
-				section = '/retired'
-				break;
-			case 3:
 				section = '/application'
 				break;
 			default:
@@ -79,14 +75,11 @@ const AccountTab = (props: {
 			case 'rejection':
 				setValue(0)
 				break;
-			case 'current-job':
+			case 'experience':
 				setValue(1)
 				break;
-			case 'retired':
-				setValue(2)
-				break;
 			case 'application':
-				setValue(3)
+				setValue(2)
 				break;
 			default:
 				// pass
@@ -98,11 +91,10 @@ const AccountTab = (props: {
 			<Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 3 }}>
 				<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
 					<Tab label="Rejection" {...a11yProps(0)} />
-					<Tab label="Current" {...a11yProps(1)} />
-					<Tab label="Retired" {...a11yProps(2)} />
+					<Tab label="Experience" {...a11yProps(1)} />
 
 					{isMe && (
-						<Tab label="Application" {...a11yProps(3)} />
+						<Tab label="Application" {...a11yProps(2)} />
 					)}
 				</Tabs>
 			</Box>

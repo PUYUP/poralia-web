@@ -15,19 +15,19 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { useRouter } from "next/router";
-import { useCreateCurrentJobMutation, useUpdateCurrentJobMutation, useUpdateApplicationMutation } from "../activity/Api";
+import { useCreateExperienceMutation, useUpdateExperienceMutation, useUpdateApplicationMutation } from "../activity/Api";
 import { useEffect, useState } from 'react'
 import { useSelector } from "react-redux";
 
-const CurrentJobForm = (props: {
+const ExperienceForm = (props: {
 	id: number,
 	action: string,
 	isLoading: boolean,
 	activity: any,
 }) => {
 	const router = useRouter()
-	const [createCurrentJob, createResult] = useCreateCurrentJobMutation()
-	const [updateCurrentJob, updateResult] = useUpdateCurrentJobMutation()
+	const [createExperience, createResult] = useCreateExperienceMutation()
+	const [updateExperience, updateResult] = useUpdateExperienceMutation()
 	const [updateApplication, updateApplicationResult] = useUpdateApplicationMutation()
 
 	const me = useSelector((state: any) => state.user.account)
@@ -38,7 +38,7 @@ const CurrentJobForm = (props: {
 
 	useEffect(() => {
 		if (createResult.isSuccess || updateResult.isSuccess) {
-			router.replace(`/${me.username}/current-job`)
+			router.replace(`/${me.username}/experience`)
 		}
 	}, [createResult, updateResult])
 
@@ -76,11 +76,8 @@ const CurrentJobForm = (props: {
 						jobTitle: secondary_item ? secondary_item.title.rendered : '',
 						appliedAt: secondary_item ? secondary_item.meta.applied_at : '',
 						acceptedAt: secondary_item ? secondary_item.meta.accepted_at : '',
-						// currentJobCount: secondary_item ? secondary_item.meta.currentJob_count : '',
-						lastStage: lastStage,
 						method: secondary_item ? secondary_item.meta.method : '',
 						story: secondary_item ? secondary_item.content.plain : '',
-						privacy: secondary_item ? secondary_item.meta.privacy : 'private',
 					}}
 					validationSchema={Yup.object({
 						applyingIn: Yup.string()
@@ -88,7 +85,8 @@ const CurrentJobForm = (props: {
 						jobTitle: Yup.string()
 							.required('Required field'),
 						appliedAt: Yup.date(),
-						acceptedAt: Yup.date(),
+						acceptedAt: Yup.date()
+							.required('Required field'),
 						method: Yup.string(),
 						story: Yup.string(),
 					})}
@@ -101,15 +99,16 @@ const CurrentJobForm = (props: {
 								applying_in: values.applyingIn,
 								applied_at: values.appliedAt,
 								accepted_at: values.acceptedAt,
+								started_at: values.acceptedAt,
 								method: values.method,
-								privacy: privacyChecked ? 'private' : 'public',
+								privacy: 'public',
 							}
 						}
 
 						if (props.id && props.action === 'edit') {
-							await updateCurrentJob({id: secondary_item?.id, ...postData})
+							await updateExperience({id: secondary_item?.id, ...postData})
 						} else {
-							await createCurrentJob({...postData})
+							await createExperience({...postData})
 
 							// Update application status
 							if (secondary_item) {
@@ -238,6 +237,7 @@ const CurrentJobForm = (props: {
 												{...params} 
 												name="acceptedAt"
 												size={'small'}
+												required={true}
 												error={touched.acceptedAt && Boolean(errors.acceptedAt)}
 												helperText={touched.acceptedAt && errors.acceptedAt?.toLocaleString()}
 												InputProps={{
@@ -316,4 +316,4 @@ const CurrentJobForm = (props: {
 	)
 }
 
-export default CurrentJobForm
+export default ExperienceForm

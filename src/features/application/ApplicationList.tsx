@@ -14,7 +14,7 @@ import { useAppDispatch } from '../../lib/hooks'
 import StageForm from './StageForm'
 import { connect, useSelector } from 'react-redux'
 import { setQueryFilter } from '../activity/Slice'
-import CurrentJobForm from '../currentJob/CurrentJobForm'
+import AcceptedForm from './AcceptedForm'
 
 
 const ApplicationList = (props: any, ref: any) => {
@@ -126,7 +126,7 @@ const ApplicationList = (props: any, ref: any) => {
 
 				<DialogContent>
 					<Box sx={{ paddingTop: 1 }}>
-						<CurrentJobForm id={0} isLoading={false} activity={application} action={'create'} />
+						<AcceptedForm id={0} isLoading={false} activity={application} action={'create'} />
 					</Box>
 				</DialogContent>
 			</Dialog>
