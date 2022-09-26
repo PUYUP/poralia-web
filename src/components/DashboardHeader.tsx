@@ -150,7 +150,7 @@ const DashboardHeader = (props: any) => {
 					</Box>
 					
 					<Box order={3}>
-						<BasicMenu session={session} me={props.me} />
+						<BasicMenu session={session} />
 					</Box>
 				</Toolbar>
 			</AppBar>
