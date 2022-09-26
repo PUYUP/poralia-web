@@ -29,8 +29,6 @@ const AccountSection = (props: {
 				{section == 'application' && (
 					<>
 						<Box marginBottom={4}>
-							<Typography marginBottom={1}>{"Never forget where your applied. Save and track it by yourself."}</Typography>
-
 							<Link href="/editor/application">
 								<Button variant="contained" sx={{ borderRadius: 10 }} startIcon={<RateReviewOutlinedIcon />}>
 									{"Save New Application"}
@@ -46,8 +44,6 @@ const AccountSection = (props: {
 						{// @ts-ignore
 						user?.id == session?.user?.id &&
 							<Box marginBottom={4}>
-								<Typography marginBottom={1}>{"Got rejection? Feel free to save it. Let recruiter got you with different way."}</Typography>
-
 								<Link href="/editor/rejection">
 									<Button variant="contained" sx={{ borderRadius: 10 }} startIcon={<RateReviewOutlinedIcon />}>
 										{"Save New Rejection"}

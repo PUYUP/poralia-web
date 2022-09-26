@@ -66,7 +66,7 @@ const AchievementForm = (props: any) => {
 					let achievements = [...props.secondary_item.meta.achievements]
 
 					// If has achievement_index edit on matching achievement
-					if (achievementIndex) {
+					if (achievementIndex != undefined) {
 						// get and update achievement by index
 						let achievement = {
 							...achievements[achievementIndex],

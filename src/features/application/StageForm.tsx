@@ -72,7 +72,7 @@ const StageForm = (props: any) => {
 					let stages = [...props.secondary_item.meta.stages]
 
 					// If has stage_index edit on matching stage
-					if (stageIndex) {
+					if (stageIndex != undefined) {
 						// get and update stage by index
 						let stage = {
 							...stages[stageIndex],

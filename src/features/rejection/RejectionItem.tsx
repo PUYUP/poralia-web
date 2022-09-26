@@ -35,7 +35,7 @@ import Swal from 'sweetalert2'
 
 const RejectionItem = (props: any) => {
 	const router = useRouter()
-	const { data } = useSession()
+	const { data: session } = useSession()
 	const { author, secondary_item } = props
 	const meta = secondary_item.meta
 	const avatar = author.simple_local_avatar ? author.simple_local_avatar?.[96] : props?.user_avatar?.['thumb']
@@ -80,7 +80,7 @@ const RejectionItem = (props: any) => {
 			borderRadius: 4, 
 			backgroundColor: () => {
 				// @ts-ignore
-				return data?.user?.id === author.id ? '#fff' : '#fff' 
+				return session?.user?.id === author.id ? '#fff' : '#fff' 
 			}
 		}}>
 			<CardContent>
@@ -93,7 +93,7 @@ const RejectionItem = (props: any) => {
 						secondaryAction={(
 							<>
 								{ // @ts-ignore
-								data?.user?.id === author.id && (
+								session?.user?.id === author.id && (
 									<>
 										<IconButton 
 											edge="end" 
@@ -155,12 +155,12 @@ const RejectionItem = (props: any) => {
 
 				<Box>
 					{ // @ts-ignore
-					/*data?.user?.id === author.id && (
+					/*session?.user?.id === author.id && (
 						<Chip size="small" color="success" label={`My rejection`} sx={{ marginLeft: 1 }} />
 					)*/}
 
 					{ // @ts-ignore
-					(data?.user?.id == author.id && meta?.privacy == 'private') && (
+					(session?.user?.id == author.id && meta?.privacy == 'private') && (
 						<Chip size="small" label={"Private"} variant="outlined" color={'primary'} icon={<LockIcon />} />
 					)}
 
@@ -310,7 +310,7 @@ const RejectionItem = (props: any) => {
 				</Box>
 				
 				{ // @ts-ignore
-				data?.user?.id !== author.id && (
+				session?.user?.id !== author.id && (
 					<Grid container marginTop={3} gap={2}>
 						{/*
 						<Grid item>
@@ -333,7 +333,7 @@ const RejectionItem = (props: any) => {
 						*/}
 						
 						{ // @ts-ignore
-						data?.user?.id !== author.id && (
+						session?.user?.id !== author.id && (
 							<Grid item>
 								<Button 
 									size="small" 

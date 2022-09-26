@@ -19,30 +19,24 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WorkOffIcon from '@mui/icons-material/WorkOff';
 import EditIcon from '@mui/icons-material/Edit';
-import CheckIcon from '@mui/icons-material/Check';
-import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import Chip from '@mui/material/Chip';
 import { useSession } from "next-auth/react";
-import { yellow } from '@mui/material/colors';
 import Link from 'next/link';
 import { useDeleteActivityMutation } from '../activity/Api';
 import Swal from 'sweetalert2'
 import Grid from '@mui/material/Grid';
 import Timeline from '@mui/lab/Timeline';
-import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import TimelineOppositeContent, {
-	timelineOppositeContentClasses,
-  } from '@mui/lab/TimelineOppositeContent';
 import { Divider } from '@mui/material';
 
 
 const ExperienceItem = (props: any) => {
-	const { data } = useSession()
+	const { data: session } = useSession()
 	const { author, secondary_item } = props
 	const meta = secondary_item.meta
 	const [deleteExperience, deletedResult] = useDeleteActivityMutation()
@@ -81,7 +75,7 @@ const ExperienceItem = (props: any) => {
 			borderRadius: 4, 
 			backgroundColor: () => {
 				// @ts-ignore
-				return data?.user?.id === author.id ? '#fff' : '#fff' 
+				return session?.user?.id === author.id ? '#fff' : '#fff' 
 			}
 		}}>
 			<CardContent>
@@ -94,7 +88,7 @@ const ExperienceItem = (props: any) => {
 						secondaryAction={(
 							<>
 								{ // @ts-ignore
-								data?.user?.id === author.id && (
+								session?.user?.id === author.id && (
 									<>
 										<IconButton 
 											edge="end" 
@@ -207,7 +201,6 @@ const ExperienceItem = (props: any) => {
 								</TableRow>
 							)}
 
-
 							<TableRow sx={{ verticalAlign: 'top' }}>
 								<TableCell width={140}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -221,8 +214,9 @@ const ExperienceItem = (props: any) => {
 											sx={{
 												padding: 0,
 												margin: 0,
-												[`& .${timelineOppositeContentClasses.root}`]: {
-													flex: 0.2,
+												[`& .${timelineItemClasses.root}:before`]: {
+													flex: 0,
+													padding: 0,
 												},
 											}}
 										>
@@ -234,9 +228,6 @@ const ExperienceItem = (props: any) => {
 															minHeight: '35px'
 														}}
 													>
-														<TimelineOppositeContent color="text.secondary" sx={{ fontSize: 13, paddingTop: '1px' }}>
-															{moment(item.date).format('L')}
-														</TimelineOppositeContent>
 														<TimelineSeparator>
 															<TimelineDot sx={{ margin: '6.5px 0', borderWidth: '1px', padding: '3px' }} />
 															<TimelineConnector />
@@ -244,11 +235,15 @@ const ExperienceItem = (props: any) => {
 														<TimelineContent sx={{ fontSize: 13, paddingTop: '1px' }}>
 															<Box display={'flex'}>
 																<Box>{item.summary}</Box>
-																<Box marginLeft={'auto'} width={20}>
-																	<IconButton size='small' onClick={() => onEditAchievement(index, item)}>
-																		<EditIcon sx={{ fontSize: 15 }} />
-																	</IconButton>
-																</Box>
+
+																{ // @ts-ignore
+																session?.user?.id === author.id && (
+																	<Box marginLeft={'auto'} width={20}>
+																		<IconButton size='small' onClick={() => onEditAchievement(index, item)}>
+																			<EditIcon sx={{ fontSize: 15 }} />
+																		</IconButton>
+																	</Box>
+																)}
 															</Box>
 														</TimelineContent>
 													</TimelineItem>

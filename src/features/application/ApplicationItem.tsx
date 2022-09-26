@@ -42,7 +42,7 @@ import { Divider } from '@mui/material';
 
 
 const ApplicationItem = (props: any) => {
-	const { data } = useSession()
+	const { data: session } = useSession()
 	const { author, secondary_item } = props
 	const meta = secondary_item.meta
 	const [deleteApplication, deletedResult] = useDeleteActivityMutation()
@@ -81,7 +81,7 @@ const ApplicationItem = (props: any) => {
 			borderRadius: 4, 
 			backgroundColor: () => {
 				// @ts-ignore
-				return data?.user?.id === author.id ? '#fff' : '#fff' 
+				return session?.user?.id === author.id ? '#fff' : '#fff' 
 			}
 		}}>
 			<CardContent>
@@ -94,7 +94,7 @@ const ApplicationItem = (props: any) => {
 						secondaryAction={(
 							<>
 								{ // @ts-ignore
-								data?.user?.id === author.id && (
+								session?.user?.id === author.id && (
 									<>
 										<IconButton 
 											edge="end" 

@@ -7,6 +7,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import WorkOffOutlinedIcon from '@mui/icons-material/WorkOffOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
@@ -70,6 +71,14 @@ const BasicMenu = (props: {
 							<WorkOffOutlinedIcon fontSize="small" />
 						</ListItemIcon>
 						<ListItemText>{"Rejection"}</ListItemText>
+					</MenuItem>
+				</Link>
+				<Link href={`/${account?.username}/experience`}>
+					<MenuItem>
+						<ListItemIcon>
+							<SchoolOutlinedIcon fontSize="small" />
+						</ListItemIcon>
+						<ListItemText>{"Experience"}</ListItemText>
 					</MenuItem>
 				</Link>
 				<Link href={`/${account?.username}`}>
