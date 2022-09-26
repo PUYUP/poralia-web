@@ -91,7 +91,7 @@ export const activityApi = createApi({
 				const { activity, author } = data
 
 				// @ts-ignore
-				const queryFilter = getState().rejection.queryFilter
+				const queryFilter = getState().activity.queryFilter
 				
 				const patchResult = dispatch(
 					activityApi.util.updateQueryData('listActivity', queryFilter, drafts => {
@@ -113,7 +113,7 @@ export const activityApi = createApi({
 			}),
 			async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled, getState }) {
 				// @ts-ignore
-				const queryFilter = getState().rejection.queryFilter
+				const queryFilter = getState().activity.queryFilter
 				const { data } = await queryFulfilled
 
 				const patchResult = dispatch(
@@ -138,7 +138,7 @@ export const activityApi = createApi({
 				const { activity, author } = data
 
 				// @ts-ignore
-				const queryFilter = getState().application.queryFilter
+				const queryFilter = getState().activity.queryFilter
 				
 				const patchResult = dispatch(
 					activityApi.util.updateQueryData('listActivity', queryFilter, drafts => {
@@ -160,7 +160,7 @@ export const activityApi = createApi({
 			}),
 			async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled, getState }) {
 				// @ts-ignore
-				const queryFilter = getState().application.queryFilter
+				const queryFilter = getState().activity.queryFilter
 				const { data } = await queryFulfilled
 
 				const patchResult = dispatch(
@@ -180,15 +180,18 @@ export const activityApi = createApi({
 				method: 'POST',
 				body: body,
 			}),
-			async onQueryStarted({...newObj}, { dispatch, queryFulfilled }) {
+			async onQueryStarted({...newObj}, { dispatch, queryFulfilled, getState }) {
 				const { data } = await queryFulfilled
 				const { activity, author } = data
+
+				// @ts-ignore
+				const queryFilter = getState().activity.queryFilter
 				
 				const patchResult = dispatch(
-					activityApi.util.updateQueryData('listActivity', { type: 'new_current_job' }, drafts => {
+					activityApi.util.updateQueryData('listActivity', queryFilter, drafts => {
 						drafts.unshift({ 
 							...activity, 
-							current_job: data,
+							secondary_item: data,
 							author: author,
 						})
 					})
@@ -202,12 +205,15 @@ export const activityApi = createApi({
 				method: 'PUT',
 				body: body,
 			}),
-			async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled }) {
+			async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled, getState }) {
+				// @ts-ignore
+				const queryFilter = getState().activity.queryFilter
 				const { data } = await queryFulfilled
+
 				const patchResult = dispatch(
-					activityApi.util.updateQueryData('listActivity', { type: 'new_current_job' }, drafts => {
+					activityApi.util.updateQueryData('listActivity', queryFilter, drafts => {
 						const index = drafts.findIndex((obj: any) => obj.id == data.activity.id)
-						drafts[index].current_job = data
+						drafts[index].secondary_item = data
 					})
 				)
 			},
@@ -234,6 +240,9 @@ export const {
 
 	useCreateApplicationMutation,
 	useUpdateApplicationMutation,
+	
+	useCreateCurrentJobMutation,
+	useUpdateCurrentJobMutation,
 
 	useDeleteActivityMutation,
 	useListActivityQuery,

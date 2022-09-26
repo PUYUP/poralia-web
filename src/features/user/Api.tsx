@@ -1,15 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getSession } from 'next-auth/react'
 
-export interface User {
-	ID: number
-	user_login: string
-	user_nicename: string
-	user_email: string
-	user_status: number
-	display_name: string
-}
-
 export const userApi = createApi({
 	reducerPath: 'userApi',
 	tagTypes: ['User'],
@@ -73,9 +64,16 @@ export const userApi = createApi({
 			}),
 			async onQueryStarted({id, body}, { dispatch, queryFulfilled }) {
 				const { data } = await queryFulfilled
-	
+
+				// const patchResult = dispatch(
+				// 	userApi.util.updateQueryData('retrieveMe', 'me', draft => {
+				// 		body.username = data.username
+				// 		Object.assign(draft, body)
+				// 	})
+				// )
+
 				const patchResult = dispatch(
-					userApi.util.updateQueryData('retrieveMe', 'me', draft => {
+					userApi.util.updateQueryData('retrieveUser', data.username, draft => {
 						body.username = data.username
 						Object.assign(draft, body)
 					})

@@ -15,6 +15,7 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { useRouter } from "next/router";
 import { useCreateApplicationMutation, useUpdateApplicationMutation } from "../activity/Api";
 import { useEffect } from 'react'
+import { useSelector } from "react-redux";
 
 const ApplicationForm = (props: {
 	id: number,
@@ -23,13 +24,14 @@ const ApplicationForm = (props: {
 	activity: any,
 }) => {
 	const router = useRouter()
+	const me = useSelector((state: any) => state.user.account)
 	const [createApplication, createResult] = useCreateApplicationMutation()
 	const [updateApplication, updateResult] = useUpdateApplicationMutation()
 	const { secondary_item }: any = props.activity
 
 	useEffect(() => {
 		if (createResult.isSuccess || updateResult.isSuccess) {
-			router.back()
+			router.replace(`/${me.username}/application`)
 		}
 	}, [createResult, updateResult])
 

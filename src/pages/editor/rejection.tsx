@@ -7,7 +7,7 @@ import DashboardLayout from "../../components/DashboardLayout"
 import RejectionForm from "../../features/rejection/RejectionForm"
 import { useRetrieveActivityQuery } from "../../features/activity/Api"
 
-const Share = (props: any) => {
+const RejectionEditor = (props: any) => {
 	const { id, action } = props.query
 	const { data, isLoading, isSuccess } = useRetrieveActivityQuery(
 		{ id: id },
@@ -17,7 +17,7 @@ const Share = (props: any) => {
 	return (
 		<>
 			<Head>
-				<title>Share Rejection | Poralia</title>
+				<title>Save Rejection</title>
 			</Head>
 
 			<DashboardLayout>
@@ -28,7 +28,7 @@ const Share = (props: any) => {
 						md: 4,
 					}}
 				>
-					<Typography variant="h5" marginBottom={.5}>{"Share Rejection"}</Typography>
+					<Typography variant="h5" marginBottom={.5}>{"Save Rejection"}</Typography>
 					<Divider sx={{ marginBottom: 4 }} />
 					<RejectionForm id={id} action={action} activity={!isLoading && isSuccess ? data?.[0] : {}} isLoading={isLoading} />
 				</Box>
@@ -37,8 +37,8 @@ const Share = (props: any) => {
 	)
 }
 
-Share.getInitialProps = ({ query }: any) => {
+RejectionEditor.getInitialProps = ({ query }: any) => {
 	return { query }
 }
 
-export default Share
+export default RejectionEditor

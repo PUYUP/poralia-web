@@ -5,10 +5,10 @@ import Divider from "@mui/material/Divider"
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import DashboardLayout from "../../components/DashboardLayout"
-import ApplicationForm from "../../features/application/AppilcationForm"
+import CurrentJobForm from "../../features/currentJob/CurrentJobForm"
 import { useRetrieveActivityQuery } from "../../features/activity/Api"
 
-const Application = (props: any) => {
+const CurrentJobEditor = (props: any) => {
 	const { id, action } = props.query
 	const { data, isLoading, isSuccess } = useRetrieveActivityQuery(
 		{ id: id },
@@ -18,7 +18,7 @@ const Application = (props: any) => {
 	return (
 		<>
 			<Head>
-				<title>Save Job Applications | Poralia</title>
+				<title>Save Current Job</title>
 			</Head>
 
 			<DashboardLayout>
@@ -29,20 +29,17 @@ const Application = (props: any) => {
 						md: 4,
 					}}
 				>
-					<Typography variant="h5" marginBottom={.5}>{"Save Job Applications"}</Typography>
-					<Divider sx={{ marginBottom: 2 }} />
-					<Alert severity="info" sx={{ marginBottom: 5 }}>
-						{"Saved job application only viewed by yourself (private)."}
-					</Alert>
-					<ApplicationForm id={id} action={action} activity={!isLoading && isSuccess ? data?.[0] : {}} isLoading={isLoading} />
+					<Typography variant="h5" marginBottom={.5}>{"Save Current Job"}</Typography>
+					<Divider sx={{ marginBottom: 4 }} />
+					<CurrentJobForm id={id} action={action} activity={!isLoading && isSuccess ? data?.[0] : {}} isLoading={isLoading} />
 				</Box>
 			</DashboardLayout>
 		</>
 	)
 }
 
-Application.getInitialProps = ({ query }: any) => {
+CurrentJobEditor.getInitialProps = ({ query }: any) => {
 	return { query }
 }
 
-export default Application
+export default CurrentJobEditor

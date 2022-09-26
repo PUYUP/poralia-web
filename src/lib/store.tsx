@@ -5,9 +5,11 @@ import { activityApi } from '../features/activity/Api';
 import { userSlice } from "../features/user/Slice";
 import { rejectionSlice } from "../features/rejection/Slice";
 import { applicationSlice } from "../features/application/Slice";
+import { activitySlice } from "../features/activity/Slice";
 
 export const store = configureStore({
 	reducer: {
+		[activitySlice.name]: activitySlice.reducer,
 		[rejectionSlice.name]: rejectionSlice.reducer,
 		[applicationSlice.name]: applicationSlice.reducer,
 		[userSlice.name]: userSlice.reducer,

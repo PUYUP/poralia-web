@@ -20,8 +20,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import WorkOffIcon from '@mui/icons-material/WorkOff';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
-import WorkOutlinedIcon from '@mui/icons-material/WorkOutlined';
 import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
+import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import Chip from '@mui/material/Chip';
 import { useSession } from "next-auth/react";
 import { yellow } from '@mui/material/colors';
@@ -41,11 +41,11 @@ import TimelineOppositeContent, {
 import { Divider } from '@mui/material';
 
 
-const ApplicationItem = (props: any) => {
+const CurrentJobItem = (props: any) => {
 	const { data } = useSession()
 	const { author, secondary_item } = props
 	const meta = secondary_item.meta
-	const [deleteApplication, deletedResult] = useDeleteActivityMutation()
+	const [deleteCurrentJob, deletedResult] = useDeleteActivityMutation()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -66,13 +66,13 @@ const ApplicationItem = (props: any) => {
 		}).then(async (result) => {
 			/* Read more about isConfirmed, isDenied below */
 			if (result.isConfirmed) {
-			  	await deleteApplication(id)
+			  	await deleteCurrentJob(id)
 			}
 		})
 	}
 
-	const onEditStage = (index: number, item: any) => {
-		props.onUpdateStage({stage_index: index, ...props})
+	const onEditAchievement = (index: number, item: any) => {
+		props.onUpdateAchievement({achievement_index: index, ...props})
 	}
 
 	return (
@@ -116,7 +116,7 @@ const ApplicationItem = (props: any) => {
 												'aria-labelledby': 'basic-button',
 											}}
 										>
-											<Link href={`/editor/application/?id=${props.id}&action=edit`}>
+											<Link href={`/editor/current-job/?id=${props.id}&action=edit`}>
 												<MenuItem>
 													<ListItemIcon>
 														<EditIcon fontSize="small" />
@@ -145,12 +145,8 @@ const ApplicationItem = (props: any) => {
 					</ListItem>
 				</Box>
 				
-				{meta.status == 'rejected' && (
-					<Chip size="small" label={"Rejected"} variant="outlined" color={'primary'} icon={<WorkOffIcon />} />
-				)}
-
 				{meta.status == 'accepted' && (
-					<Chip size="small" label={"Accepted"} variant="outlined" color={'primary'} icon={<WorkOutlinedIcon />} />
+					<Chip size="small" label={"Accepted"} variant="outlined" color={'primary'} icon={<WorkOffIcon />} />
 				)}
 
 				<Box>
@@ -193,7 +189,7 @@ const ApplicationItem = (props: any) => {
 								<TableCell>{meta.applied_at ? moment(meta.applied_at).format('LL') : '-'}</TableCell>
 							</TableRow>
 
-							{meta?.stages && meta?.stages.length > 0 && (
+							{meta?.achievements && meta?.achievements.length > 0 && (
 								<TableRow>
 									<TableCell colSpan={2}>
 										<Divider sx={{ marginTop: 1, marginBottom: 1, borderStyle: 'dashed' }}></Divider>
@@ -205,12 +201,12 @@ const ApplicationItem = (props: any) => {
 							<TableRow sx={{ verticalAlign: 'top' }}>
 								<TableCell width={140}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
-										{"Stages"}
+										{"Achievements"}
 									</Typography>
 								</TableCell>
 
 								<TableCell>
-									{meta?.stages && meta?.stages.length > 0 ? (
+									{meta?.achievements && meta?.achievements.length > 0 ? (
 										<Timeline 
 											sx={{
 												padding: 0,
@@ -220,7 +216,7 @@ const ApplicationItem = (props: any) => {
 												},
 											}}
 										>
-											{meta.stages?.map((item: any, index: number) => {
+											{meta.achievements?.map((item: any, index: number) => {
 												return (
 													<TimelineItem 
 														key={index}
@@ -239,7 +235,7 @@ const ApplicationItem = (props: any) => {
 															<Box display={'flex'}>
 																<Box>{item.summary}</Box>
 																<Box marginLeft={'auto'} width={20}>
-																	<IconButton size='small' onClick={() => onEditStage(index, item)}>
+																	<IconButton size='small' onClick={() => onEditAchievement(index, item)}>
 																		<EditIcon sx={{ fontSize: 15 }} />
 																	</IconButton>
 																</Box>
@@ -258,47 +254,24 @@ const ApplicationItem = (props: any) => {
 						</TableBody>
 					</Table>
 					
-					{meta.status == 'ongoing' && (
-						<Box marginTop={3}>
-							<Typography fontSize={12} marginBottom={1}>{"What happen with this application?"}</Typography>
-							
-							<Grid container alignItems={'center'}>
-								<Grid item xs={7}>
-									<Button 
-										startIcon={<WorkOffIcon />} 
-										size="small" 
-										sx={{ borderRadius: 5 }} 
-										onClick={() => props.onRejected(props)}
-									>
-										{"Rejected"}
-									</Button>
-									<Button 
-										startIcon={<CheckIcon />} 
-										size="small" 
-										sx={{ marginLeft: 2, borderRadius: 5 }}
-										onClick={() => props.onAccepted(props)}
-									>
-										{"Accepted"}
-									</Button>
-								</Grid>
-
-								<Grid item xs={5} textAlign={'right'}>
-									<Button 
-										startIcon={<ModelTrainingIcon />} 
-										size="small" 
-										sx={{ borderRadius: 5 }}
-										onClick={() => props.onUpdateStage(props)}
-									>
-										{"Update Stage"}
-									</Button>
-								</Grid>
+					<Box marginTop={3}>
+						<Grid container alignItems={'center'}>
+							<Grid item xs={5}>
+								<Button 
+									startIcon={<EmojiEventsOutlinedIcon />} 
+									size="small" 
+									sx={{ borderRadius: 5 }}
+									onClick={() => props.onUpdateAchievement(props)}
+								>
+									{"Update Achievement"}
+								</Button>
 							</Grid>
-						</Box>
-					)}
+						</Grid>
+					</Box>
 				</Box>
 			</CardContent>
 		</Card>
 	)
 }
 
-export default ApplicationItem
+export default CurrentJobItem

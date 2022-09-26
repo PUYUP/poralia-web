@@ -80,7 +80,7 @@ const RejectionItem = (props: any) => {
 			borderRadius: 4, 
 			backgroundColor: () => {
 				// @ts-ignore
-				return data?.user?.id === author.id ? yellow[50] : '#fff' 
+				return data?.user?.id === author.id ? '#fff' : '#fff' 
 			}
 		}}>
 			<CardContent>
@@ -115,7 +115,7 @@ const RejectionItem = (props: any) => {
 												'aria-labelledby': 'basic-button',
 											}}
 										>
-											<Link href={`/share/?id=${props.id}&action=edit`}>
+											<Link href={`/editor/rejection/?id=${props.id}&action=edit`}>
 												<MenuItem>
 													<ListItemIcon>
 														<EditIcon fontSize="small" />
@@ -188,7 +188,7 @@ const RejectionItem = (props: any) => {
 						<TableBody>
 							{/*
 							<TableRow>
-								<TableCell width={140}>
+								<TableCell width={120}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Total rejection"}
 									</Typography>
@@ -201,7 +201,7 @@ const RejectionItem = (props: any) => {
 							*/}
 
 							<TableRow>
-								<TableCell width={140}>
+								<TableCell width={120}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Applying in"}
 									</Typography>
@@ -213,7 +213,7 @@ const RejectionItem = (props: any) => {
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={140}>
+								<TableCell width={120}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Applied at"}
 									</Typography>
@@ -223,7 +223,7 @@ const RejectionItem = (props: any) => {
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={140}>
+								<TableCell width={120}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Rejected at"}
 									</Typography>
@@ -233,19 +233,19 @@ const RejectionItem = (props: any) => {
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={140}>
+								<TableCell width={120}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
-										{"Last process stage"}
+										{"Last stage"}
 									</Typography>
 								</TableCell>
 
 								<TableCell>
-									<Typography fontSize={14}>{meta.last_process ? meta.last_process : '-'}</Typography>
+									<Typography fontSize={14}>{meta.last_stage ? meta.last_stage : '-'}</Typography>
 								</TableCell>
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={140}>
+								<TableCell width={120}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Method"}
 									</Typography>
@@ -257,7 +257,7 @@ const RejectionItem = (props: any) => {
 							</TableRow>
 
 							<TableRow>
-								<TableCell width={140} sx={{ verticalAlign: 'top' }}>
+								<TableCell width={120} sx={{ verticalAlign: 'top' }}>
 									<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 										{"Rejection story"}
 									</Typography>
@@ -279,7 +279,7 @@ const RejectionItem = (props: any) => {
 
 							{secondary_item.skills && (
 								<TableRow>
-									<TableCell width={140}>
+									<TableCell width={120}>
 										<Typography fontSize={14} sx={{ display: 'flex', alignItems: 'center' }}>
 											{"My skills"}
 										</Typography>

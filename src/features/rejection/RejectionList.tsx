@@ -10,7 +10,7 @@ import { useAppDispatch } from '../../lib/hooks'
 const RejectionList = (props: any, ref: any) => {
 	const dispatch = useAppDispatch()
 	const [filter, setFilter] = React.useState<any>({ type: 'new_rejection' })
-	const { data: data, isLoading, isSuccess, refetch, isFetching } = useListActivityQuery(filter)
+	const { data: data, isLoading, refetch, isFetching } = useListActivityQuery(filter)
 
 	React.useImperativeHandle(ref, () => ({
 

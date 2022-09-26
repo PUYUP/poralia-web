@@ -9,29 +9,25 @@ import Typography from "@mui/material/Typography"
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import WorkIcon from '@mui/icons-material/Work';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-import Checkbox from '@mui/material/Checkbox';
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
-import Alert from '@mui/material/Alert';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { useRouter } from "next/router";
-import { useCreateRejectionMutation, useUpdateRejectionMutation, useUpdateApplicationMutation } from "../activity/Api";
+import { useCreateCurrentJobMutation, useUpdateCurrentJobMutation, useUpdateApplicationMutation } from "../activity/Api";
 import { useEffect, useState } from 'react'
 import { useSelector } from "react-redux";
 
-const RejectionForm = (props: {
+const CurrentJobForm = (props: {
 	id: number,
 	action: string,
 	isLoading: boolean,
 	activity: any,
 }) => {
 	const router = useRouter()
-	const [createRejection, createResult] = useCreateRejectionMutation()
-	const [updateRejection, updateResult] = useUpdateRejectionMutation()
+	const [createCurrentJob, createResult] = useCreateCurrentJobMutation()
+	const [updateCurrentJob, updateResult] = useUpdateCurrentJobMutation()
 	const [updateApplication, updateApplicationResult] = useUpdateApplicationMutation()
 
 	const me = useSelector((state: any) => state.user.account)
@@ -40,13 +36,9 @@ const RejectionForm = (props: {
 	const { meta } = secondary_item || { meta: undefined }
 	const lastStage = meta?.stages && meta?.stages.length > 0 ? meta?.stages[0].summary : meta?.last_stage
 
-	const handlePrivacyChange = (event: any) => {
-		setPrivacyChecked(event.target.checked)
-	}
-
 	useEffect(() => {
 		if (createResult.isSuccess || updateResult.isSuccess) {
-			router.replace(`/${me.username}/rejection`)
+			router.replace(`/${me.username}/current-job`)
 		}
 	}, [createResult, updateResult])
 
@@ -83,8 +75,8 @@ const RejectionForm = (props: {
 						applyingIn: secondary_item ? secondary_item.meta.applying_in : '',
 						jobTitle: secondary_item ? secondary_item.title.rendered : '',
 						appliedAt: secondary_item ? secondary_item.meta.applied_at : '',
-						rejectedAt: secondary_item ? secondary_item.meta.rejected_at : '',
-						// rejectionCount: secondary_item ? secondary_item.meta.rejection_count : '',
+						acceptedAt: secondary_item ? secondary_item.meta.accepted_at : '',
+						// currentJobCount: secondary_item ? secondary_item.meta.currentJob_count : '',
 						lastStage: lastStage,
 						method: secondary_item ? secondary_item.meta.method : '',
 						story: secondary_item ? secondary_item.content.plain : '',
@@ -96,13 +88,9 @@ const RejectionForm = (props: {
 						jobTitle: Yup.string()
 							.required('Required field'),
 						appliedAt: Yup.date(),
-						rejectedAt: Yup.date(),
-						// rejectionCount: Yup.number(),
-						lastStage: Yup.string(),
+						acceptedAt: Yup.date(),
 						method: Yup.string(),
 						story: Yup.string(),
-						privacy: Yup.string()
-							.required(),
 					})}
 					onSubmit={async (values, { setSubmitting}) => {
 						const postData = {
@@ -112,25 +100,23 @@ const RejectionForm = (props: {
 							meta: {
 								applying_in: values.applyingIn,
 								applied_at: values.appliedAt,
-								rejected_at: values.rejectedAt,
-								// rejection_count: values.rejectionCount,
-								last_stage: values.lastStage,
+								accepted_at: values.acceptedAt,
 								method: values.method,
 								privacy: privacyChecked ? 'private' : 'public',
 							}
 						}
 
 						if (props.id && props.action === 'edit') {
-							await updateRejection({id: secondary_item?.id, ...postData})
+							await updateCurrentJob({id: secondary_item?.id, ...postData})
 						} else {
-							await createRejection({...postData})
+							await createCurrentJob({...postData})
 
 							// Update application status
 							if (secondary_item) {
 								await updateApplication({
 									id: secondary_item.id, 
 									meta: {
-										status: 'rejected'
+										status: 'accepted'
 									}
 								})
 							}
@@ -242,83 +228,23 @@ const RejectionForm = (props: {
 										}}
 									>
 										<MobileDatePicker
-											label={"Rejected At"}
+											label={"Accepted At"}
 											inputFormat="MM/DD/YYYY"
-											value={values.rejectedAt}
+											value={values.acceptedAt}
 											onChange={(value: any) => {
-												setFieldValue('rejectedAt', value)
+												setFieldValue('acceptedAt', value)
 											}}
 											renderInput={(params) => <TextField 
 												{...params} 
-												name="rejectedAt"
+												name="acceptedAt"
 												size={'small'}
-												error={touched.rejectedAt && Boolean(errors.rejectedAt)}
-												helperText={touched.rejectedAt && errors.rejectedAt?.toLocaleString()}
+												error={touched.acceptedAt && Boolean(errors.acceptedAt)}
+												helperText={touched.acceptedAt && errors.acceptedAt?.toLocaleString()}
 												InputProps={{
 													placeholder: "MM/DD/YYY",
 													startAdornment: <InputAdornment position="start"><EventNoteIcon /></InputAdornment>,
 												}}
 											/>}
-										/>
-									</FormControl>
-								</Grid>
-							</Grid>
-
-							<Grid container spacing={{
-								xs: 0,
-								sm: 2
-							}}>
-								{/*
-								<Grid item xs={12} sm={6}>
-									<FormControl 
-										fullWidth 
-										sx={{ 
-											marginBottom: {
-												xs: 3,
-												sm: 4,
-											} 
-										}}
-									>
-										<TextField
-											name="rejectionCount"
-											label={"Total Rejection Until Now"}
-											type="number"
-											placeholder={"eg: 10"}
-											size={'small'}
-											value={values.rejectionCount}
-											onChange={handleChange}
-											error={touched.rejectionCount && Boolean(errors.rejectionCount)}
-											helperText={touched.rejectionCount && errors.rejectionCount?.toLocaleString()}
-											InputProps={{
-												startAdornment: <InputAdornment position="start"><PersonOffIcon /></InputAdornment>,
-											}}
-										/>
-									</FormControl>
-								</Grid>
-								*/}
-
-								<Grid item xs={12} sm={12}>
-									<FormControl 
-										fullWidth 
-										sx={{ 
-											marginBottom: {
-												xs: 3,
-												sm: 4,
-											} 
-										}}
-									>
-										<TextField
-											name="lastStage"
-											label={"Last Stage"}
-											placeholder={"eg: Interview"}
-											size={'small'}
-											value={values.lastStage}
-											onChange={handleChange}
-											error={touched.lastStage && Boolean(errors.lastStage)}
-											helperText={touched.lastStage && errors.lastStage?.toLocaleString()}
-											InputProps={{
-												startAdornment: <InputAdornment position="start"><RunningWithErrorsIcon /></InputAdornment>,
-											}}
 										/>
 									</FormControl>
 								</Grid>
@@ -335,7 +261,7 @@ const RejectionForm = (props: {
 							>
 								<TextField
 									name="method"
-									label={"Rejection Method"}
+									label={"Informed By"}
 									placeholder={"eg: by Phone call"}
 									size={'small'}
 									value={values.method}
@@ -362,39 +288,14 @@ const RejectionForm = (props: {
 									minRows={3}
 									maxRows={300}
 									name="story"
-									label={"Rejection Story"}
-									placeholder={"Your story about this rejection such as how to get this job, recruitment story, etc. Feel free to tell us."}
+									label={"Accepted Story"}
+									placeholder={"Your story about this moment such as how to get this job, recruitment story, etc. Feel free to tell us."}
 									size={'small'}
 									value={values.story}
 									onChange={handleChange}
 									error={touched.story && Boolean(errors.story)}
 									helperText={touched.story && errors.story?.toLocaleString()}
 								/>
-							</FormControl>
-
-							<FormControl 
-								fullWidth 
-								sx={{ 
-									marginBottom: {
-										xs: 3,
-										sm: 4,
-									} 
-								}}
-							>
-								<FormGroup>
-									<Typography>{"Privacy type for this rejection"}</Typography>
-									<FormControlLabel 
-										control={<Checkbox checked={privacyChecked} />} 
-										label="Private" 
-										onChange={handlePrivacyChange}
-									/>
-
-									{privacyChecked ? (
-										<Alert severity="warning">{"Only visible by you and your connections"}</Alert>
-									) : (
-										<Alert severity="info">{"Visible to everyones"}</Alert>
-									)}
-								</FormGroup>
 							</FormControl>
 
 							<Box>
@@ -404,7 +305,7 @@ const RejectionForm = (props: {
 									disabled={updateResult.isLoading || createResult.isLoading}
 									sx={{ borderRadius: 6 }}
 								>
-									{props.action === 'edit' ? 'Update My Rejection' : 'Save My Rejection'}
+									{props.action === 'edit' ? 'Update This' : 'Save This'}
 								</Button>
 							</Box>
 						</Form>
@@ -415,4 +316,4 @@ const RejectionForm = (props: {
 	)
 }
 
-export default RejectionForm
+export default CurrentJobForm

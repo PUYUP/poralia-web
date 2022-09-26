@@ -2,10 +2,11 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
+import WorkHistoryOutlinedIcon from '@mui/icons-material/WorkHistoryOutlined';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import WorkOffOutlinedIcon from '@mui/icons-material/WorkOffOutlined';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
@@ -17,19 +18,21 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import BadgeIcon from '@mui/icons-material/Badge';
+import { useSelector } from 'react-redux';
 
 const BasicMenu = (props: {
-	session: any
+	session: any,
 }) => {
-	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-	const open = Boolean(anchorEl);
+	const account = useSelector((state: any) => state.user.account)
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+	const open = Boolean(anchorEl)
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 	  	setAnchorEl(event.currentTarget);
-	};
+	}
 	const handleClose = () => {
 	  	setAnchorEl(null);
-	};
-  
+	}
+
 	return (
 		<>
 			<Button
@@ -53,31 +56,23 @@ const BasicMenu = (props: {
 					'aria-labelledby': 'basic-button',
 				}}
 			>	
-				<Link href={'/account/application'}>
+				<Link href={`/${account?.username}/application`}>
 					<MenuItem>
 						<ListItemIcon>
-							<WorkHistoryIcon fontSize="small" />
+							<WorkHistoryOutlinedIcon fontSize="small" />
 						</ListItemIcon>
 						<ListItemText>{"Application"}</ListItemText>
 					</MenuItem>
 				</Link>
-				<Link href={'/account/application'}>
+				<Link href={`/${account?.username}/rejection`}>
 					<MenuItem>
 						<ListItemIcon>
-							<VolunteerActivismIcon fontSize="small" />
+							<WorkOffOutlinedIcon fontSize="small" />
 						</ListItemIcon>
-						<ListItemText>{"Jobs Offer"}</ListItemText>
+						<ListItemText>{"Rejection"}</ListItemText>
 					</MenuItem>
 				</Link>
-				<Link href={'/account/application'}>
-					<MenuItem>
-						<ListItemIcon>
-							<BadgeIcon fontSize="small" />
-						</ListItemIcon>
-						<ListItemText>{"Current Job"}</ListItemText>
-					</MenuItem>
-				</Link>
-				<Link href={'/account'}>
+				<Link href={`/${account?.username}`}>
 					<MenuItem>
 						<ListItemIcon>
 							<PersonIcon fontSize="small" />
@@ -146,7 +141,7 @@ const DashboardHeader = (props: any) => {
 					</Box>
 					
 					<Box order={3}>
-						<BasicMenu session={session} />
+						<BasicMenu session={session} me={props.me} />
 					</Box>
 				</Toolbar>
 			</AppBar>

@@ -38,11 +38,8 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 
-const AccountCard = (props: {
-	user: any,
-	isMe: boolean,
-}) => {
-	const avatar = props?.user?.simple_local_avatar ? props?.user?.simple_local_avatar?.[192] : props.user?.avatar_urls?.[96]
+const AccountCard = (props: any) => {
+	const avatar = props?.simple_local_avatar ? props?.simple_local_avatar?.[192] : props?.avatar_urls?.[96]
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [expandedAbout, setExpandedAbout] = React.useState<boolean>(false)
 	const theme = useTheme();
@@ -138,8 +135,8 @@ const AccountCard = (props: {
 					}}
 				>
 					<Box>
-						<Typography fontWeight={700} fontSize={20}>{props.user.name}</Typography>
-						<Typography color={grey[600]}>@{props.user.username}</Typography>
+						<Typography fontWeight={700} fontSize={20}>{props.name}</Typography>
+						<Typography color={grey[600]}>@{props.username}</Typography>
 					</Box>
 
 					{props.isMe &&
@@ -155,7 +152,7 @@ const AccountCard = (props: {
 				</Grid>
 
 				<Grid item xs={12}>
-					{props.user.description && (
+					{props.description && (
 						<>
 							<Card 
 								sx={{ 
@@ -191,7 +188,7 @@ const AccountCard = (props: {
 										<Typography 
 											padding={2} 
 											component='div' 
-											dangerouslySetInnerHTML={{__html: props.user.description}}
+											dangerouslySetInnerHTML={{__html: props.description}}
 											whiteSpace={'pre-line'}
 										></Typography>
         							</Collapse>
@@ -209,7 +206,7 @@ const AccountCard = (props: {
 				sx={{ '& .MuiDialog-paper': { width: '90%', maxHeight: '95%' } }}
 			>
 				<DialogContent sx={{ paddingTop: 5 }}>
-					<AccountForm user={props.user} onSubmited={onUpdateSubmited} />
+					<AccountForm user={props} onSubmited={onUpdateSubmited} />
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>

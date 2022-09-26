@@ -12,11 +12,17 @@ const ActivityList = (props: {
 	return (
 		<>
 			<Box>
-				{isLoading && (
+				{isLoading ? (
 					<Box paddingTop={4} paddingBottom={4} sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
 						<CircularProgress sx={{ marginLeft: 'auto', marginRight: 'auto' }} />
-						<Typography textAlign={'center'} marginTop={2}>{"Loading rejection..."}</Typography>
+						<Typography textAlign={'center'} marginTop={2}>{"Please wait..."}</Typography>
 					</Box>
+				) : (
+					<>
+						{rejections?.length <= 0 &&
+							<Typography>{"No data."}</Typography>
+						}
+					</>
 				)}
 			</Box>
 

@@ -316,7 +316,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Poralia</title>
-        <meta name="description" content="Share job rejections then get new opportunity" />
+        <meta name="description" content="Save job rejections then get new opportunity" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
