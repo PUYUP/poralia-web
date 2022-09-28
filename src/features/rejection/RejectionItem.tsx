@@ -334,20 +334,40 @@ const RejectionItem = (props: any) => {
 						
 						{ // @ts-ignore
 						session?.user?.id !== author.id && (
-							<Grid item>
-								<Button 
-									size="small" 
-									variant="text" 
-									startIcon={<VolunteerActivismIcon />}
-									sx={{ 
-										paddingLeft: 1.5, 
-										paddingRight: 1.5,
-										borderRadius: 10
-									}}
-								>
-									{"Offer a job"}
-								</Button>
-							</Grid>
+							<>
+								<Grid item>
+									<Button 
+										size="small" 
+										variant="text" 
+										startIcon={<VolunteerActivismIcon />}
+										onClick={() => props.onOfferJob(props)}
+										sx={{ 
+											paddingLeft: 1.5, 
+											paddingRight: 1.5,
+											borderRadius: 10
+										}}
+									>
+										{props.offering.total > 0 ? 'Add new offer' : 'Offer a job'}
+									</Button>
+								</Grid>
+
+								{props.offering.total > 0 && (
+									<Grid item>
+										<Button 
+											size="small" 
+											variant="text" 
+											onClick={() => props.onShowOfferedJob(props)}
+											sx={{ 
+												paddingLeft: 1.5, 
+												paddingRight: 1.5,
+												borderRadius: 10
+											}}
+										>
+											{`Show my offering (${props.offering.total})`}
+										</Button>
+									</Grid>
+								)}
+							</>
 						)}
 					</Grid>
 				)}

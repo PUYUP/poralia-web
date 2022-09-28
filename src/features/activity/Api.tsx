@@ -21,6 +21,45 @@ export const activityApi = createApi({
 		}
 	}),
 	endpoints: (build) => ({
+		createActivity: build.mutation<any, any>({
+			query: (body) => {
+				return {
+					url: `/buddypress/v1/activity`,
+					method: 'POST',
+					body: body,
+				}
+			},
+			async onQueryStarted({ ...body }, { dispatch, queryFulfilled, getState }) {
+				const { data } = await queryFulfilled
+				const [ activity ] = data 
+
+				// @ts-ignore
+				const queryFilter = getState().activity.queryFilter
+
+				const patchResult = dispatch(
+					activityApi.util.updateQueryData('listActivity', queryFilter, drafts => {
+						if (activity.type == 'activity_comment' && activity.secondary_type == 'job_offered') {
+							const post = drafts.find((post: any) => post.id == activity.primary_item_id)
+							if (post) {
+								console.log(activity)
+								post.offering.total++
+								post.offering.activities = [
+									{...activity},
+									...post.offering.activities,
+								]
+							}
+						}
+					})
+				)
+			},
+		}),
+		updateActivity: build.mutation<any, any>({
+			query: ({ id, ...body }) => ({
+				url: `/buddypress/v1/activity/${id}`,
+				method: 'PUT',
+				body: body,
+			})
+		}),
 		listActivity: build.query<any, any>({
 			query: ({ ...params }) => {
 				params = Object.fromEntries(Object.entries(params).filter(([_, v]) => v));
@@ -59,9 +98,9 @@ export const activityApi = createApi({
 				// so it knows which piece of cache state to update
 				const { data } = await queryFulfilled
 				const patchResult = dispatch(
-				  	activityApi.util.updateQueryData('listActivity', { type: 'new_rejection' }, draft => {
-						// The `draft` is Immer-wrapped and can be "mutated" like in createSlice
-						const post = draft.find((post: any) => post.id == activityId)
+				  	activityApi.util.updateQueryData('listActivity', { type: 'new_rejection' }, drafts => {
+						// The `drafts` is Immer-wrapped and can be "mutated" like in createSlice
+						const post = drafts.find((post: any) => post.id == activityId)
 						if (post) {
 							if (data?.[0]?.favorite_count > post.favorite_count) {
 					  			post.favorite_count++
@@ -243,6 +282,9 @@ export const {
 	
 	useCreateExperienceMutation,
 	useUpdateExperienceMutation,
+
+	useCreateActivityMutation,
+	useUpdateActivityMutation,
 
 	useDeleteActivityMutation,
 	useListActivityQuery,

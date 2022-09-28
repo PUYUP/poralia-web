@@ -8,6 +8,8 @@ import { FirestoreAdapter } from "@next-auth/firebase-adapter"
 const USER_BASE_URL = `${process.env.NEXT_PUBLIC_BASE_API_URL}/wp/v2/users/`
 const JWT_BASE_URL = `${process.env.NEXT_PUBLIC_BASE_API_URL}/jwt-auth/v1/token`
 
+import { store } from "../../../lib/store";
+
 
 export const authOptions = (req) => ({
 	secret: process.env.NEXT_PUBLIC_AUTH_SECRET,

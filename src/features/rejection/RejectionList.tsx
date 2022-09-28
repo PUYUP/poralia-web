@@ -1,16 +1,33 @@
 import * as React from 'react'
+import moment from "moment";
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Typography from '@mui/material/Typography'
 import RejectionItem from './RejectionItem'
 import { useListActivityQuery } from '../activity/Api'
-import { setQueryFilter } from './Slice'
 import { useAppDispatch } from '../../lib/hooks'
+import OfferJobForm from './OfferJobForm';
+
+import { store } from '../../lib/store'
+import { setQueryFilter } from '../activity/Slice';
 
 
 const RejectionList = (props: any, ref: any) => {
 	const dispatch = useAppDispatch()
 	const [filter, setFilter] = React.useState<any>({ type: 'new_rejection' })
-	const { data: data, isLoading, refetch, isFetching } = useListActivityQuery(filter)
+	const { data: data, isLoading, isSuccess, refetch, isFetching } = useListActivityQuery(filter)
+	const [offeredJob, setOfferedJob] = React.useState<boolean>(false)
+	const [showOfferedJob, setShowOfferedJob] = React.useState<boolean>(false)
+	const [activityItem, setActivityItem] = React.useState<any>()
 
 	React.useImperativeHandle(ref, () => ({
 
@@ -34,12 +51,36 @@ const RejectionList = (props: any, ref: any) => {
 	
 	}));
 
+	const onOfferJob = (item: any) => {
+		setActivityItem(item)
+		setOfferedJob(true)
+	}
+
+	const handleClose = () => {
+		setActivityItem({})
+		setOfferedJob(false);
+	}
+
+	const onJobOfferingSubmitSuccess = () => {
+		setOfferedJob(false);
+	}
+
+	const onShowOfferedJob = (item: any) => {
+		setActivityItem(item)
+		setShowOfferedJob(true)
+	}
+
+	const handleHideOfferedJob = () => {
+		setActivityItem({})
+		setShowOfferedJob(false)
+	}
+
 	React.useEffect(() => {
 		props.isFetching(isFetching)
 
 		// i don't know what i wrote about this
 		dispatch(setQueryFilter(filter))
-	}, [isFetching])
+	}, [isSuccess, isFetching])
 
 	return (
 		<>
@@ -52,10 +93,75 @@ const RejectionList = (props: any, ref: any) => {
 
 				{data?.map((item: any, index: number) => {
 					return (
-						<RejectionItem key={index} {...item} />
+						<RejectionItem key={index} {...item} onOfferJob={onOfferJob} onShowOfferedJob={onShowOfferedJob} />
 					)
 				})}
 			</Box>
+
+			{activityItem?.id && (
+				<>
+					<Dialog open={offeredJob} onClose={handleClose} fullWidth maxWidth={'sm'}>
+						<DialogTitle>
+							<Box display={'flex'} alignItems={'center'}>
+								<Box>{`Offer job to ${activityItem?.author.name}`}</Box>
+								<Box marginLeft={'auto'}>
+									<Button onClick={handleClose}>Cancel</Button>
+								</Box>
+							</Box>
+						</DialogTitle>
+
+						<DialogContent>
+							<Box paddingTop={1}>
+								<OfferJobForm activity={activityItem} onSubmitSuccess={onJobOfferingSubmitSuccess} />
+							</Box>
+						</DialogContent>
+					</Dialog>
+
+					<Dialog
+						open={showOfferedJob}
+						onClose={handleHideOfferedJob}
+						fullWidth
+						maxWidth={'sm'}
+					>
+						<DialogTitle id="alert-dialog-title">
+							<Box display={'flex'} alignItems={'center'}>
+								<Box>{"My offered job"}</Box>
+								<Box marginLeft={'auto'}>
+									<Button onClick={handleHideOfferedJob}>{"Hide"}</Button>
+								</Box>
+							</Box>
+						</DialogTitle>
+
+						<DialogContent>
+							<List>
+								{activityItem.offering.activities.map((item: any, index: number) => {
+									return (
+										<>
+											<ListItem key={index}>
+												<Box>
+													<Typography fontSize={14} fontWeight={700} marginBottom={0}>
+														{`${moment(item.date_gmt).format('LL')}`}
+													</Typography>
+													<Typography 
+														fontSize={14} 
+														component='div' 
+														dangerouslySetInnerHTML={{__html: item.content ? item.content.rendered : '-'}}
+														sx={{
+															[`& p + p`]: {
+																marginTop: 0
+															}
+														}}
+													></Typography>
+												</Box>
+											</ListItem>
+										</>
+									)
+								})}
+							</List>
+						</DialogContent>
+					</Dialog>
+				</>
+			)}
 		</>
 		
 	)
