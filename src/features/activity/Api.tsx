@@ -41,7 +41,6 @@ export const activityApi = createApi({
 						if (activity.type == 'activity_comment' && activity.secondary_type == 'job_offered') {
 							const post = drafts.find((post: any) => post.id == activity.primary_item_id)
 							if (post) {
-								console.log(activity)
 								post.offering.total++
 								post.offering.activities = [
 									{...activity},

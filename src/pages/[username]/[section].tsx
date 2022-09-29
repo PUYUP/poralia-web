@@ -70,6 +70,12 @@ const AccountSection = (props: {
 						<ExperienceList user={user} />
 					</>
 				)}
+
+				{section == 'offering' && (
+					<>
+						<p>Coming soon...</p>
+					</>
+				)}
 			</AccountLayout>
 		</>
 	)

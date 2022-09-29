@@ -57,6 +57,14 @@ const BasicMenu = (props: {
 					'aria-labelledby': 'basic-button',
 				}}
 			>	
+				<Link href={`/${account?.username}/offering`}>
+					<MenuItem>
+						<ListItemIcon>
+							<VolunteerActivismIcon fontSize="small" />
+						</ListItemIcon>
+						<ListItemText>{"Job Offering"}</ListItemText>
+					</MenuItem>
+				</Link>
 				<Link href={`/${account?.username}/application`}>
 					<MenuItem>
 						<ListItemIcon>

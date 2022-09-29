@@ -63,6 +63,9 @@ const AccountTab = (props: {
 			case 2:
 				section = '/application'
 				break;
+			case 3:
+				section = '/offering'
+				break;
 			default:
 				// pass
 		}
@@ -81,6 +84,9 @@ const AccountTab = (props: {
 			case 'application':
 				setValue(2)
 				break;
+			case 'offering':
+				setValue(3)
+				break;
 			default:
 				// pass
 		}
@@ -95,6 +101,10 @@ const AccountTab = (props: {
 
 					{isMe && (
 						<Tab label="Application" {...a11yProps(2)} />
+					)}
+
+					{isMe && (
+						<Tab label="Offering" {...a11yProps(3)} />
 					)}
 				</Tabs>
 			</Box>
