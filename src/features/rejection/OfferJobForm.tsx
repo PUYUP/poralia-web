@@ -33,7 +33,6 @@ const OfferJobForm = (props: {
 			onSubmit={async (values, { setSubmitting }) => {
 				const payload = {
 					primary_item_id: props.activity.id,
-					// secondary_item_id: props.activity.id,
 					context: 'edit',
 					user_id: account?.id,
 					component: 'activity',
