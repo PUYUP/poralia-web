@@ -3,11 +3,8 @@ import moment from "moment";
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -17,7 +14,6 @@ import { useListActivityQuery } from '../activity/Api'
 import { useAppDispatch } from '../../lib/hooks'
 import OfferJobForm from './OfferJobForm';
 
-import { store } from '../../lib/store'
 import { setQueryFilter } from '../activity/Slice';
 
 
@@ -147,8 +143,8 @@ const RejectionList = (props: any, ref: any) => {
 														component='div' 
 														dangerouslySetInnerHTML={{__html: item.content ? item.content.rendered : '-'}}
 														sx={{
-															[`& p + p`]: {
-																marginTop: 0
+															[`& p:first-child`]: {
+																marginTop: '5px'
 															}
 														}}
 													></Typography>

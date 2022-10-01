@@ -5,8 +5,7 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import FormControl from "@mui/material/FormControl"
-import InputAdornment from '@mui/material/InputAdornment'
-import WorkIcon from '@mui/icons-material/Work';
+import Alert from '@mui/material/Alert';
 import { useCreateActivityMutation } from "../activity/Api"
 import { useSelector } from "react-redux"
 
@@ -54,6 +53,10 @@ const OfferJobForm = (props: {
 				setFieldValue,
 			}) => (
 				<Form>
+					<Alert severity="info" sx={{ marginBottom: 2 }}>
+						{"Please note, after offering send you can't delete or change."}
+					</Alert>
+
 					<FormControl 
 						fullWidth 
 						sx={{ 

@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react'
 import { useRetrieveUserQuery } from '../../features/user/Api'
 import ApplicationList from '../../features/application/ApplicationList'
 import ExperienceList from '../../features/experience/ExperienceList'
+import OfferingList from '../../features/offering/OfferingList'
 
 const AccountSection = (props: {
 	query: any,
@@ -73,7 +74,7 @@ const AccountSection = (props: {
 
 				{section == 'offering' && (
 					<>
-						<p>Coming soon...</p>
+						<OfferingList />
 					</>
 				)}
 			</AccountLayout>
