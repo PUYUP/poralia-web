@@ -14,6 +14,8 @@ import CardContent from '@mui/material/CardContent';
 import SubscribeForm from '../features/user/forms/SubscribeForm';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import RejectionHome from '../components/RejectionHome';
 
 
 const Hero = () => {
@@ -312,12 +314,19 @@ const HowTo = () => {
 }
 
 const Home: NextPage = () => {
+  const { data: session, status } = useSession()
+
+  if (status == 'authenticated') {
+    return (
+      <RejectionHome />
+    )
+  }
+
   return (
     <>
       <Head>
         <title>Poralia</title>
         <meta name="description" content="Save job rejections then get new opportunity" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <GeneralLayout>

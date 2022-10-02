@@ -19,7 +19,8 @@ import { setQueryFilter } from '../activity/Slice';
 
 const RejectionList = (props: any, ref: any) => {
 	const dispatch = useAppDispatch()
-	const [filter, setFilter] = React.useState<any>({ type: 'new_rejection' })
+	const [page, setPage] = React.useState<number>(1)
+	const [filter, setFilter] = React.useState<any>({ type: 'new_rejection', page: page })
 	const { data: data, isLoading, isSuccess, refetch, isFetching } = useListActivityQuery(filter)
 	const [offeredJob, setOfferedJob] = React.useState<boolean>(false)
 	const [showOfferedJob, setShowOfferedJob] = React.useState<boolean>(false)
@@ -71,6 +72,10 @@ const RejectionList = (props: any, ref: any) => {
 		setShowOfferedJob(false)
 	}
 
+	const handleLoadMore = () => {
+		setPage(page + 1)
+	}
+
 	React.useEffect(() => {
 		props.isFetching(isFetching)
 
@@ -92,6 +97,21 @@ const RejectionList = (props: any, ref: any) => {
 						<RejectionItem key={index} {...item} onOfferJob={onOfferJob} onShowOfferedJob={onShowOfferedJob} />
 					)
 				})}
+
+				{(!isLoading && data) &&
+					<Box textAlign={'center'}>
+						<Button 
+							type="button"
+							variant="contained"
+							onClick={handleLoadMore}
+							sx={{
+								borderRadius: 5
+							}}
+						>
+							{"Load more"}
+						</Button>
+					</Box>
+				}
 			</Box>
 
 			{activityItem?.id && (

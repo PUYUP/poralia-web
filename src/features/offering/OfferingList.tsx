@@ -17,11 +17,13 @@ import { setQueryFilter } from '../activity/Slice'
 const OfferingList = (props: any, ref: any) => {
 	const dispatch = useAppDispatch()
 	const { user } = props
+	const [page, setPage] = React.useState<number>(1)
 	const [filter, setFilter] = React.useState<any>({ 
 		type: 'activity_comment', 
 		secondary_type: 'job_offered',
 		order: 'desc',
 		display_comments: true,
+		page: page,
 	})
 	const { data: applications, isLoading, isSuccess } = useListActivityQuery(filter)
 

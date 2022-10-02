@@ -20,9 +20,11 @@ import AcceptedForm from './AcceptedForm'
 const ApplicationList = (props: any, ref: any) => {
 	const dispatch = useAppDispatch()
 	const { user } = props
+	const [page, setPage] = React.useState<number>(1)
 	const [filter, setFilter] = React.useState<any>({ 
 		type: 'new_application', 
-		username: user.username 
+		username: user.username ,
+		page: page,
 	})
 	const { data: applications, isLoading, isSuccess } = useListActivityQuery(filter)
 

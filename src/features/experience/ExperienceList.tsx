@@ -19,9 +19,11 @@ import { setQueryFilter } from '../activity/Slice'
 const ExperienceList = (props: any, ref: any) => {
 	const dispatch = useAppDispatch()
 	const { user } = props
+	const [page, setPage] = React.useState<number>(1)
 	const [filter, setFilter] = React.useState<any>({ 
 		type: 'new_experience', 
-		username: user.username 
+		username: user.username,
+		page: page,
 	})
 	const { data: experiences, isLoading, isSuccess } = useListActivityQuery(filter)
 

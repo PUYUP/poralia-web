@@ -11,13 +11,13 @@ import CheckIcon from '@mui/icons-material/Check';
 import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Head from "next/head"
-import DashboardLayout from "../../components/DashboardLayout"
-import RejectionList from "../../features/rejection/RejectionList"
-import { useListTagsQuery } from '../../features/activity/Api'
-import TagItem from "../../features/rejection/Tagitem"
+import DashboardLayout from './DashboardLayout'
+import RejectionList from "../features/rejection/RejectionList"
+import { useListTagsQuery } from '../features/activity/Api'
+import TagItem from "../features/rejection/Tagitem"
 import { useSelector } from 'react-redux'
 
-const Rejection = (props: any) => {
+const RejectionHome = (props: any) => {
 	const rejectionListRef = React.useRef<any>()
 	const [fetching, setFetching] = React.useState<boolean>(false)
 	const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
@@ -60,7 +60,8 @@ const Rejection = (props: any) => {
 	return (
 		<>
 			<Head>
-				<title>{"Rejections History | Poralia"}</title>
+				<title>Poralia</title>
+        		<meta name="description" content="Save job rejections then get new opportunity" />
 			</Head>
 		
 			<DashboardLayout>
@@ -171,4 +172,4 @@ const Rejection = (props: any) => {
 	)
 }
 
-export default Rejection
+export default RejectionHome

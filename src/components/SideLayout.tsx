@@ -12,7 +12,7 @@ const SideLayout = ({ children }: Props) => {
 	
 	useEffect(() => {
 		if (status === 'authenticated') {
-			router.push('/rejection')
+			router.push('/')
 		}
 	}, [status])
 
