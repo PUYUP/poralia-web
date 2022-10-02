@@ -140,7 +140,7 @@ const DashboardHeader = (props: any) => {
 						}}
 					>
 						<Typography variant="h6" component="div" paddingLeft={1}>
-							<Link href="/rejection">
+							<Link href="/">
 								<a>{"Poralia"}</a>
 							</Link>
 						</Typography>
@@ -150,7 +150,7 @@ const DashboardHeader = (props: any) => {
 						xs: 2,
 						sm: 2,
 					}}>
-						<Link href="/rejection">
+						<Link href="/">
 							<a>
 								<Image src={'/poralia-logo-white.png'} width="34" height="34" />
 							</a>
